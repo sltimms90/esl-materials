@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jen Jen's Grammar Power-Up!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;700&display=swap');
+
+  :root {
+    --pink: #FF6B9D;
+    --pink-light: #FFF0F6;
+    --pink-dark: #C2185B;
+    --teal: #00BFA5;
+    --teal-light: #E0F7F4;
+    --teal-dark: #00796B;
+    --amber: #FFB300;
+    --amber-light: #FFF8E1;
+    --amber-dark: #E65100;
+    --purple: #9C27B0;
+    --purple-light: #F3E5F5;
+    --purple-dark: #6A1B9A;
+    --correct: #2E7D32;
+    --correct-bg: #E8F5E9;
+    --wrong: #C62828;
+    --wrong-bg: #FFEBEE;
+    --text: #1A1A2E;
+    --muted: #666680;
+    --bg: #FAFAF8;
+    --card-border: rgba(0,0,0,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #FF6B9D 0%, #9C27B0 100%);
+    color: white;
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 50%;
+  }
+  .header h1 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.3rem;
+  }
+  .header p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+  .stars {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 4px;
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  /* ── RULE CARD ── */
+  .rule-card {
+    background: white;
+    border-radius: 16px;
+    border: 1.5px solid var(--card-border);
+    margin: 1.25rem 0;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .rule-header {
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1.5px solid var(--card-border);
+  }
+  .rule-number {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.9rem;
+    color: white;
+    flex-shrink: 0;
+  }
+  .rule-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    flex: 1;
+  }
+  .rule-chinese {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .rule-body {
+    padding: 1.1rem 1.25rem;
+  }
+
+  /* Colors per rule */
+  .r1 .rule-header { background: #FFF0F6; }
+  .r1 .rule-number { background: var(--pink); }
+  .r1 .rule-title { color: var(--pink-dark); }
+
+  .r2 .rule-header { background: var(--teal-light); }
+  .r2 .rule-number { background: var(--teal-dark); }
+  .r2 .rule-title { color: var(--teal-dark); }
+
+  .r3 .rule-header { background: var(--amber-light); }
+  .r3 .rule-number { background: var(--amber-dark); }
+  .r3 .rule-title { color: var(--amber-dark); }
+
+  .r4 .rule-header { background: var(--purple-light); }
+  .r4 .rule-number { background: var(--purple-dark); }
+  .r4 .rule-title { color: var(--purple-dark); }
+
+  /* ── SPLIT COMPARISON ── */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 0.75rem 0;
+  }
+  .split-box {
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+  }
+  .split-box .label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .split-box .key-word {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+  }
+  .split-box .meaning {
+    font-size: 0.82rem;
+    margin-bottom: 0.6rem;
+  }
+  .split-box .example {
+    font-size: 0.83rem;
+    font-style: italic;
+    border-left: 3px solid;
+    padding-left: 0.6rem;
+    line-height: 1.5;
+  }
+
+  .box-pink { background: #FFF0F6; }
+  .box-pink .label { color: var(--pink-dark); }
+  .box-pink .key-word { color: var(--pink-dark); }
+  .box-pink .example { border-color: var(--pink); color: var(--pink-dark); }
+
+  .box-blue { background: #E3F2FD; }
+  .box-blue .label { color: #1565C0; }
+  .box-blue .key-word { color: #1565C0; }
+  .box-blue .example { border-color: #1976D2; color: #1565C0; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight {
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin: 0.7rem 0;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .highlight .icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .highlight-amber { background: var(--amber-light); color: #5D3800; border-left: 4px solid var(--amber); }
+  .highlight-teal { background: var(--teal-light); color: #004D40; border-left: 4px solid var(--teal); }
+  .highlight-purple { background: var(--purple-light); color: #4A148C; border-left: 4px solid var(--purple); }
+  .highlight-pink { background: #FFF0F6; color: var(--pink-dark); border-left: 4px solid var(--pink); }
+
+  /* ── CORRECT / WRONG ── */
+  .example-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0.35rem 0;
+    font-size: 0.9rem;
+  }
+  .tag {
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 1px 7px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    letter-spacing: 0.3px;
+  }
+  .tag-wrong { background: var(--wrong-bg); color: var(--wrong); }
+  .tag-right { background: var(--correct-bg); color: var(--correct); }
+  .tag-tip { background: #E8EAF6; color: #283593; }
+
+  .example-text-wrong { text-decoration: line-through; color: var(--wrong); }
+  .example-text-right { color: var(--correct); font-weight: 700; }
+  .example-note { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+
+  /* ── FORMULA TABLE ── */
+  .formula-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin: 0.5rem 0;
+  }
+  .formula-table th {
+    background: #F0F0FF;
+    padding: 0.5rem 0.7rem;
+    text-align: left;
+    font-weight: 800;
+    font-size: 0.78rem;
+    color: #3949AB;
+    border-bottom: 2px solid #C5CAE9;
+  }
+  .formula-table td {
+    padding: 0.5rem 0.7rem;
+    border-bottom: 1px solid #EEEEEE;
+    vertical-align: top;
+  }
+  .formula-table tr:last-child td { border-bottom: none; }
+  .formula-table tr:nth-child(even) td { background: #FAFAFA; }
+  .formula-table .formula { font-weight: 700; color: var(--purple-dark); }
+  .formula-table .chinese { color: var(--muted); font-size: 0.8rem; }
+  .formula-table .eg { color: #37474F; font-style: italic; font-size: 0.82rem; }
+
+  /* ── PRACTICE SECTION ── */
+  .practice-card {
+    background: white;
+    border-radius: 16px;
+    border: 2px dashed #BDBDBD;
+    margin: 1.25rem 0;
+    overflow: hidden;
+  }
+  .practice-header {
+    background: #F5F5F5;
+    padding: 0.8rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #E0E0E0;
+  }
+  .practice-header span {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #424242;
+  }
+  .practice-body { padding: 1rem 1.25rem; }
+
+  .q-row {
+    margin: 0.7rem 0;
+    padding: 0.7rem 0.9rem;
+    background: #FAFAFA;
+    border-radius: 8px;
+    border-left: 3px solid #BDBDBD;
+    font-size: 0.9rem;
+  }
+  .q-number {
+    font-weight: 800;
+    color: #757575;
+    font-size: 0.8rem;
+    margin-bottom: 3px;
+  }
+  .q-sentence { color: var(--text); }
+
+  .answer-toggle {
+    margin-top: 0.5rem;
+    background: none;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.78rem;
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+  .answer-toggle:hover { background: #F5F5F5; color: var(--text); }
+
+  .answer-box {
+    display: none;
+    margin-top: 0.5rem;
+    padding: 0.6rem 0.8rem;
+    background: var(--correct-bg);
+    border-radius: 7px;
+    font-size: 0.85rem;
+    color: var(--correct);
+    font-weight: 700;
+  }
+  .answer-hint {
+    font-size: 0.8rem;
+    color: #388E3C;
+    font-weight: 400;
+    display: block;
+    margin-top: 3px;
+  }
+
+  /* ── SEPARATOR ── */
+  .rule-divider {
+    text-align: center;
+    color: #BDBDBD;
+    font-size: 1rem;
+    letter-spacing: 8px;
+    margin: 0.25rem 0;
+  }
+
+  /* ── INLINE CODE ── */
+  code {
+    background: #F0F0FF;
+    color: var(--purple-dark);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'Nunito', monospace;
+    font-size: 0.9em;
+    font-weight: 700;
+  }
+
+  /* ── SMALL HELPERS ── */
+  p { margin: 0.4rem 0; font-size: 0.9rem; }
+  .spacer { height: 0.5rem; }
+  .bottom-space { height: 2rem; }
+
+  @media (max-width: 500px) {
+    .split { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="stars">★ ★ ★</div>
+  <h1>Grammar Power-Up!</h1>
+  <p>Jen Jen 的考試必勝秘笈 &nbsp;·&nbsp; Quick Review Guide</p>
+</div>
+
+<div class="section">
+
+  <!-- ══════════════════════════════════════════
+       RULE 1: MYSELF vs. BY MYSELF
+  ══════════════════════════════════════════ -->
+  <div class="rule-card r1">
+    <div class="rule-header">
+      <div class="rule-number">1</div>
+      <div>
+        <div class="rule-title">Myself &nbsp;vs.&nbsp; By Myself</div>
+        <div class="rule-chinese">我自己做 vs. 一個人做</div>
+      </div>
+    </div>
+    <div class="rule-body">
+
+      <div class="split">
+        <div class="split-box box-pink">
+          <div class="label">Myself</div>
+          <div class="key-word">myself</div>
+          <div class="meaning">我自己做（強調親自）<br><em>I did it — nobody else!</em></div>
+          <div class="example">I cooked dinner <strong>myself</strong>.<br>(My parents didn't cook it.)</div>
+        </div>
+        <div class="split-box box-blue">
+          <div class="label">By Myself</div>
+          <div class="key-word">by myself</div>
+          <div class="meaning">我一個人（強調獨自）<br><em>I was alone!</em></div>
+          <div class="example">I went to the park <strong>by myself</strong>.<br>(No friends came with me.)</div>
+        </div>
+      </div>
+
+      <div class="highlight highlight-amber">
+        <span class="icon">💡</span>
+        <span><strong>Quick test:</strong> Ask yourself — am I saying <em>WHO did it</em> (myself) or <em>ALONE</em> (by myself)?</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MINI PRACTICE 1 -->
+  <div class="practice-card">
+    <div class="practice-header">
+      <span>✏️ &nbsp;Quick Check — Rule 1</span>
+    </div>
+    <div class="practice-body">
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem;">Find the ONE mistake and fix it.</p>
+      <div class="q-row">
+        <div class="q-number">Q1</div>
+        <div class="q-sentence">I don't need help with my homework. I can do it <u>by myself</u>.</div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">Show answer ▼</button>
+        <div class="answer-box">
+          ✓ This sentence is already CORRECT!
+          <span class="answer-hint">「by myself」 = without help = alone. That fits perfectly here.</span>
+        </div>
+      </div>
+      <p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem; font-style:italic;">💬 Can you explain <em>why</em> it's correct to your teacher?</p>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       RULE 2: SUPERLATIVE + POSSESSIVE
+  ══════════════════════════════════════════ -->
+  <div class="rule-card r2">
+    <div class="rule-header">
+      <div class="rule-number">2</div>
+      <div>
+        <div class="rule-title">最高級 + 所有格：Drop "the"!</div>
+        <div class="rule-chinese">My / His / Her / Tom's + 最高級 → 不用 the</div>
+      </div>
+    </div>
+    <div class="rule-body">
+
+      <div class="highlight highlight-teal">
+        <span class="icon">🔑</span>
+        <span>The word <code>my / his / her / Tom's</code> already <strong>replaces</strong> the word <code>the</code>. You can't use both!</span>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="example-row">
+        <span class="tag tag-wrong">✗</span>
+        <span class="example-text-wrong">He is my <strong>the</strong> best friend.</span>
+      </div>
+      <div class="example-row">
+        <span class="tag tag-right">✓</span>
+        <span class="example-text-right">He is my best friend.</span>
+      </div>
+      <div class="example-note" style="margin-left:52px;">"my" = 所有格，已經替代了 "the"</div>
+
+      <div class="spacer"></div>
+
+      <div class="example-row">
+        <span class="tag tag-wrong">✗</span>
+        <span class="example-text-wrong">Summer is the shop's <strong>the</strong> busiest season.</span>
+      </div>
+      <div class="example-row">
+        <span class="tag tag-right">✓</span>
+        <span class="example-text-right">Summer is the shop's busiest season.</span>
+      </div>
+      <div class="example-note" style="margin-left:52px;">"the shop's" = 所有格，已經替代了 "the"</div>
+
+    </div>
+  </div>
+
+  <!-- MINI PRACTICE 2 -->
+  <div class="practice-card">
+    <div class="practice-header">
+      <span>✏️ &nbsp;Quick Check — Rule 2</span>
+    </div>
+    <div class="practice-body">
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem;">Find the ONE mistake and fix it.</p>
+      <div class="q-row">
+        <div class="q-number">Q2</div>
+        <div class="q-sentence">Anna is my <u>the</u> smartest sister.</div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">Show answer ▼</button>
+        <div class="answer-box">
+          ✗ Remove "the"!
+          <span class="answer-hint">→ Anna is my <strong>smartest</strong> sister. &nbsp;（my 已代替 the）</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       RULE 3: IN vs. OF
+  ══════════════════════════════════════════ -->
+  <div class="rule-card r3">
+    <div class="rule-header">
+      <div class="rule-number">3</div>
+      <div>
+        <div class="rule-title">"In" vs. "Of" with 最高級</div>
+        <div class="rule-chinese">在哪個範圍裡？地方用 in，數量用 of</div>
+      </div>
+    </div>
+    <div class="rule-body">
+
+      <div class="split">
+        <div class="split-box box-blue">
+          <div class="label">Use IN 用 in</div>
+          <div class="meaning" style="font-weight:700;">📍 A place or group</div>
+          <div class="meaning">地方 / 群體</div>
+          <div class="example">She is the tallest girl <strong>in</strong> my class.<br>He is the best player <strong>in</strong> the team.</div>
+        </div>
+        <div class="split-box box-pink">
+          <div class="label">Use OF 用 of</div>
+          <div class="meaning" style="font-weight:700;">🔢 A number or "all"</div>
+          <div class="meaning">數字 / all</div>
+          <div class="example">She ate the most <strong>of</strong> the five kids.<br><strong>Of</strong> all the boys, he runs fastest.</div>
+        </div>
+      </div>
+
+      <div class="highlight highlight-amber">
+        <span class="icon">⚡</span>
+        <span><strong>Test Trap:</strong> When you see a <em>number</em> (five, three, ten...) or the word <em>all</em>, always use <code>of</code>!</span>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="example-row">
+        <span class="tag tag-wrong">✗</span>
+        <span class="example-text-wrong">In the five snacks, cake is the yummiest.</span>
+      </div>
+      <div class="example-row">
+        <span class="tag tag-right">✓</span>
+        <span class="example-text-right">Of the five snacks, cake is the yummiest.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MINI PRACTICE 3 -->
+  <div class="practice-card">
+    <div class="practice-header">
+      <span>✏️ &nbsp;Quick Check — Rule 3</span>
+    </div>
+    <div class="practice-body">
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem;">Find the ONE mistake and fix it.</p>
+      <div class="q-row">
+        <div class="q-number">Q3</div>
+        <div class="q-sentence"><u>In</u> the four seasons, winter is the coldest.</div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">Show answer ▼</button>
+        <div class="answer-box">
+          ✗ Change "In" → "Of"!
+          <span class="answer-hint">→ <strong>Of</strong> the four seasons, winter is the coldest. &nbsp;（four = 數字，用 of）</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       RULE 4: THE OTHER / ANOTHER / OTHERS
+  ══════════════════════════════════════════ -->
+  <div class="rule-card r4">
+    <div class="rule-header">
+      <div class="rule-number">4</div>
+      <div>
+        <div class="rule-title">Another / The Other / Others</div>
+        <div class="rule-chinese">另一個 / 其他的 — 總數公式！</div>
+      </div>
+    </div>
+    <div class="rule-body">
+
+      <div class="highlight highlight-purple">
+        <span class="icon">🔑</span>
+        <span><strong>Key trick:</strong> If a word ends in <code>-s</code> (others, the others), it is already a noun. It <strong>cannot</strong> be followed by another noun!</span>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="example-row">
+        <span class="tag tag-wrong">✗</span>
+        <span class="example-text-wrong">Where are the others <strong>boys</strong>?</span>
+      </div>
+      <div class="example-row">
+        <span class="tag tag-right">✓</span>
+        <span class="example-text-right">Where are the others?</span>
+      </div>
+      <div class="example-note" style="margin-left:52px;">「-s」已經代表複數名詞，後面不能再加名詞</div>
+
+      <div class="spacer"></div>
+
+      <!-- Formula Table -->
+      <table class="formula-table">
+        <thead>
+          <tr>
+            <th>Total</th>
+            <th>Formula 公式</th>
+            <th>Example 例句</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:800; font-size:1rem; color:#3949AB;">2 things</td>
+            <td>
+              <div class="formula">One… the other…</div>
+              <div class="chinese">一個…另一個…</div>
+            </td>
+            <td class="eg">I have 2 pens. One is red, <strong>the other</strong> is blue.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800; font-size:1rem; color:#3949AB;">3 things</td>
+            <td>
+              <div class="formula">One… another… the other…</div>
+              <div class="chinese">一個…另一個…最後一個…</div>
+            </td>
+            <td class="eg">3 cats: one black, <strong>another</strong> white, <strong>the other</strong> orange.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800; font-size:1rem; color:#3949AB;">Many</td>
+            <td>
+              <div class="formula">Some… the others…</div>
+              <div class="chinese">一些…剩下的全部…</div>
+            </td>
+            <td class="eg">10 students: some are reading, <strong>the others</strong> are sleeping.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <!-- MINI PRACTICE 4 -->
+  <div class="practice-card">
+    <div class="practice-header">
+      <span>✏️ &nbsp;Quick Check — Rule 4</span>
+    </div>
+    <div class="practice-body">
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.5rem;">Find the ONE mistake and fix it.</p>
+      <div class="q-row">
+        <div class="q-number">Q4</div>
+        <div class="q-sentence">I have two brothers. One is a teacher, and <u>another</u> is a doctor.</div>
+        <button class="answer-toggle" onclick="toggleAnswer(this)">Show answer ▼</button>
+        <div class="answer-box">
+          ✗ Change "another" → "the other"!
+          <span class="answer-hint">→ One is a teacher, and <strong>the other</strong> is a doctor. &nbsp;（只有2個人，用 one…the other）</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       FINAL CHEAT CODES
+  ══════════════════════════════════════════ -->
+  <div style="background: linear-gradient(135deg, #1A1A2E 0%, #3949AB 100%); border-radius: 16px; padding: 1.3rem 1.5rem; margin: 1.25rem 0; color: white;">
+    <div style="font-weight:800; font-size:1rem; margin-bottom:0.75rem; letter-spacing:0.5px;">⚡ EXAM CHEAT CODES</div>
+    <div style="font-size:0.87rem; line-height:2;">
+      見到 <code style="background:rgba(255,255,255,0.15); color:#FFD740;">my/his/her/Tom's</code> + 最高級 → 不用 the<br>
+      見到 <code style="background:rgba(255,255,255,0.15); color:#69F0AE;">數字 / all</code> + 最高級 → 用 of<br>
+      見到 <code style="background:rgba(255,255,255,0.15); color:#80D8FF;">地方 / 群體</code> + 最高級 → 用 in<br>
+      <code style="background:rgba(255,255,255,0.15); color:#FF80AB;">others / the others</code> 後面 → 不能加名詞<br>
+      只有2個 → <code style="background:rgba(255,255,255,0.15); color:#CF6679;">one… the other…</code>
+    </div>
+  </div>
+
+  <div class="bottom-space"></div>
+</div>
+
+<script>
+function toggleAnswer(btn) {
+  const box = btn.nextElementSibling;
+  if (box.style.display === 'block') {
+    box.style.display = 'none';
+    btn.textContent = 'Show answer ▼';
+  } else {
+    box.style.display = 'block';
+    btn.textContent = 'Hide answer ▲';
+  }
+}
+</script>
+</body>
+</html>
