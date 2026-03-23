@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hankson's English Review</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f5f4f0;
@@ -21,17 +21,6 @@
     --tag-bg: #f0ede8;
     --mono: 'DM Mono', monospace;
     --sans: 'DM Sans', sans-serif;
-
-    /* Rule card colours */
-    --c1: #0369a1;   /* blue  — Used To */
-    --c1-light: #e0f2fe;
-    --c1-mid: #bae6fd;
-    --c2: #047857;   /* green — Comparatives */
-    --c2-light: #d1fae5;
-    --c2-mid: #a7f3d0;
-    --c3: #7c3aed;   /* purple — Vocabulary */
-    --c3-light: #ede9fe;
-    --c3-mid: #ddd6fe;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,11 +33,10 @@
     padding: 0 0 80px;
   }
 
-  /* ── HEADER ── */
   header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 20px 32px;
+    padding: 24px 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -56,269 +44,380 @@
     top: 0;
     z-index: 100;
   }
-  .header-left h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.02em; }
-  .header-left p { font-size: 12px; color: var(--muted); margin-top: 2px; font-family: var(--mono); }
-  .score-badge {
-    font-family: var(--mono); font-size: 13px;
-    background: var(--tag-bg); padding: 6px 14px;
-    border-radius: 20px; color: var(--text); border: 1px solid var(--border);
-  }
-  .score-badge span { font-weight: 500; color: var(--accent); }
 
-  /* ── NAV ── */
+  .header-left h1 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .header-left p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-family: var(--mono);
+  }
+
+  .score-badge {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--tag-bg);
+    padding: 6px 14px;
+    border-radius: 20px;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .score-badge span {
+    font-weight: 500;
+    color: var(--accent);
+  }
+
   nav {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     padding: 0 32px;
     display: flex;
+    gap: 0;
   }
+
   .tab-btn {
-    padding: 14px 20px; border: none; background: none; cursor: pointer;
-    font-family: var(--sans); font-size: 13px; font-weight: 500;
-    color: var(--muted); border-bottom: 2px solid transparent;
-    transition: all 0.15s; letter-spacing: 0.01em;
+    padding: 14px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
   }
+
   .tab-btn:hover { color: var(--text); }
-  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
 
-  /* ── PROGRESS ── */
-  .section-progress { height: 3px; background: var(--border); }
-  .section-progress-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
+  .section-progress {
+    height: 3px;
+    background: var(--border);
+    margin: 0;
+  }
+  .section-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
 
-  /* ── MAIN ── */
-  main { max-width: 760px; margin: 40px auto; padding: 0 24px; }
+  main {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 0 24px;
+  }
+
   .section { display: none; }
   .section.active { display: block; }
 
-  .section-header { margin-bottom: 28px; }
-  .section-label {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  .section-header {
+    margin-bottom: 32px;
   }
-  .section-title { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
-  .section-desc { margin-top: 8px; font-size: 14px; color: var(--muted); line-height: 1.6; }
 
-  /* ── RULE CARD (new visual style) ── */
-  .rule-card {
-    border-radius: 14px;
-    margin-bottom: 28px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
   }
-  .rule-card-header {
-    padding: 14px 20px;
+
+  .section-title {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .section-desc {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .rule-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .rule-card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .rule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .rule-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  .rule-table tr:last-child td { border-bottom: none; }
+
+  .rule-table td:first-child {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    width: 120px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .rule-table code {
+    font-family: var(--mono);
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  .tip-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    margin-top: 16px;
+    line-height: 1.6;
+    color: #78350f;
+  }
+
+  .tip-box strong { font-weight: 600; }
+
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s;
+  }
+
+  .question-card.correct { border-color: var(--correct); background: var(--correct-light); }
+  .question-card.wrong { border-color: var(--wrong); background: var(--wrong-light); }
+
+  .question-meta {
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
   }
-  .rule-card-header .rule-dot {
-    width: 26px; height: 26px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; color: white; flex-shrink: 0;
-  }
-  .rule-card-header .rule-heading { font-size: 13px; font-weight: 600; }
-  .rule-card-header .rule-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
-  .rule-card-body { padding: 18px 20px; background: var(--surface); }
 
-  /* colour themes */
-  .rc-blue .rule-card-header { background: var(--c1-light); }
-  .rc-blue .rule-dot { background: var(--c1); }
-  .rc-blue .rule-card-header .rule-heading { color: var(--c1); }
-  .rc-green .rule-card-header { background: var(--c2-light); }
-  .rc-green .rule-dot { background: var(--c2); }
-  .rc-green .rule-card-header .rule-heading { color: var(--c2); }
-  .rc-purple .rule-card-header { background: var(--c3-light); }
-  .rc-purple .rule-dot { background: var(--c3); }
-  .rc-purple .rule-card-header .rule-heading { color: var(--c3); }
+  .q-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--tag-bg);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
 
-  /* ── SPLIT BOX ── */
-  .split-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 10px 0;
-  }
-  .split-box {
-    border-radius: 10px;
-    padding: 12px 14px;
-    font-size: 13px;
-  }
-  .split-box .sb-label {
+  .q-tag {
     font-family: var(--mono);
     font-size: 10px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    font-weight: 500;
-    margin-bottom: 5px;
-  }
-  .split-box .sb-key { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
-  .split-box .sb-note { font-size: 12px; margin-bottom: 6px; color: inherit; opacity: 0.8; }
-  .split-box .sb-example {
-    font-size: 12px; font-style: italic;
-    border-left: 3px solid; padding-left: 8px; line-height: 1.5;
-  }
-  .sb-blue { background: var(--c1-light); color: #0c4a6e; }
-  .sb-blue .sb-label { color: var(--c1); }
-  .sb-blue .sb-example { border-color: var(--c1); }
-  .sb-teal { background: #e0f2fe; color: #0c4a6e; }
-  .sb-teal .sb-label { color: #0369a1; }
-  .sb-teal .sb-example { border-color: #0369a1; }
-  .sb-green { background: var(--c2-light); color: #064e3b; }
-  .sb-green .sb-label { color: var(--c2); }
-  .sb-green .sb-example { border-color: var(--c2); }
-  .sb-amber { background: #fef3c7; color: #78350f; }
-  .sb-amber .sb-label { color: #b45309; }
-  .sb-amber .sb-example { border-color: #d97706; }
-
-  /* ── EXAMPLE ROWS ── */
-  .ex-row {
-    display: flex; align-items: baseline; gap: 8px;
-    margin: 5px 0; font-size: 13.5px;
-  }
-  .ex-tag {
-    font-size: 10px; font-weight: 700; padding: 2px 7px;
-    border-radius: 20px; flex-shrink: 0; font-family: var(--mono);
-    letter-spacing: 0.03em;
-  }
-  .ex-tag-wrong { background: var(--wrong-light); color: var(--wrong); }
-  .ex-tag-right { background: var(--correct-light); color: var(--correct); }
-  .ex-wrong { text-decoration: line-through; color: var(--wrong); }
-  .ex-right { color: var(--correct); font-weight: 600; }
-  .ex-note { font-size: 11.5px; color: var(--muted); font-style: italic; margin-left: 46px; margin-top: -2px; margin-bottom: 4px; }
-
-  /* ── RULE TABLE ── */
-  .rule-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 4px 0; }
-  .rule-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); line-height: 1.5; vertical-align: top; }
-  .rule-table tr:last-child td { border-bottom: none; }
-  .rule-table td:first-child {
-    font-family: var(--mono); font-size: 10px; color: var(--muted);
-    width: 88px; text-transform: uppercase; letter-spacing: 0.05em; padding-top: 11px;
-  }
-  .rule-table code {
-    font-family: var(--mono); background: var(--accent-light);
-    color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 12px;
+    color: var(--muted);
   }
 
-  /* ── TIP / HIGHLIGHT BOX ── */
-  .tip-box {
-    border-radius: 8px; padding: 11px 14px; font-size: 13px;
-    margin-top: 14px; line-height: 1.6; display: flex; gap: 8px; align-items: flex-start;
+  .question-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--text);
   }
-  .tip-box .tip-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
-  .tip-amber { background: #fffbeb; border: 1px solid #fde68a; color: #78350f; }
-  .tip-blue  { background: var(--c1-light); border: 1px solid var(--c1-mid); color: #0c4a6e; }
-  .tip-green { background: var(--c2-light); border: 1px solid var(--c2-mid); color: #064e3b; }
-  .tip-box strong { font-weight: 600; }
 
-  /* ── WARN PANEL (same/diff group style) ── */
-  .warn-panel {
-    border-radius: 10px; overflow: hidden;
-    border: 1px solid var(--border); margin-top: 14px;
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
-  .warn-panel-head {
-    padding: 8px 14px; font-size: 11px; font-weight: 700;
-    letter-spacing: 0.04em; font-family: var(--mono);
-  }
-  .warn-panel-body { display: grid; grid-template-columns: 1fr 1fr; font-size: 13px; }
-  .warn-panel-cell { padding: 10px 14px; }
-  .warn-panel-cell:first-child { border-right: 1px solid var(--border); }
-  .warn-panel-cell .wpc-title { font-weight: 600; font-size: 12px; margin-bottom: 3px; }
-  .warn-panel-cell .wpc-eg { font-style: italic; font-size: 12px; margin-top: 5px; }
 
-  /* ── QUESTION CARDS ── */
-  .question-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 24px; margin-bottom: 16px;
-    transition: border-color 0.2s;
-  }
-  .question-card.correct { border-color: var(--correct); background: var(--correct-light); }
-  .question-card.wrong   { border-color: var(--wrong);   background: var(--wrong-light); }
-
-  .question-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .q-number {
-    font-family: var(--mono); font-size: 11px; color: var(--muted);
-    background: var(--tag-bg); padding: 3px 8px; border-radius: 4px;
-  }
-  .q-tag {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--muted);
-  }
-  .question-text { font-size: 15.5px; font-weight: 400; line-height: 1.7; margin-bottom: 18px; color: var(--text); }
-
-  /* ── CHOICES ── */
-  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
   .choice-btn {
-    padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px;
-    background: var(--surface); cursor: pointer; font-family: var(--sans);
-    font-size: 13.5px; text-align: left; transition: all 0.15s; color: var(--text);
-    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 14px;
+    text-align: left;
+    transition: all 0.15s;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-light); }
-  .choice-btn.selected-correct { border-color: var(--correct); background: var(--correct-light); color: var(--correct); }
-  .choice-btn.selected-wrong   { border-color: var(--wrong);   background: var(--wrong-light);   color: var(--wrong); }
-  .choice-btn.reveal-correct   { border-color: var(--correct); background: var(--correct-light); color: var(--correct); }
-  .choice-btn:disabled { cursor: default; }
-  .choice-label { font-family: var(--mono); font-size: 10px; color: var(--muted); min-width: 14px; }
 
-  /* ── FITB ── */
-  .fitb-input {
-    border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 13px;
-    font-family: var(--sans); font-size: 14px; width: 200px; color: var(--text);
-    background: var(--surface); transition: border-color 0.15s; outline: none;
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--accent-light);
   }
+
+  .choice-btn.selected-correct {
+    border-color: var(--correct);
+    background: var(--correct-light);
+    color: var(--correct);
+  }
+
+  .choice-btn.selected-wrong {
+    border-color: var(--wrong);
+    background: var(--wrong-light);
+    color: var(--wrong);
+  }
+
+  .choice-btn.reveal-correct {
+    border-color: var(--correct);
+    background: var(--correct-light);
+    color: var(--correct);
+  }
+
+  .choice-btn:disabled { cursor: default; }
+
+  .choice-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 16px;
+  }
+
+  .fitb-input {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: var(--sans);
+    font-size: 15px;
+    width: 200px;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color 0.15s;
+    outline: none;
+  }
+
   .fitb-input:focus { border-color: var(--accent); }
   .fitb-input.correct { border-color: var(--correct); background: var(--correct-light); color: var(--correct); }
-  .fitb-input.wrong   { border-color: var(--wrong);   background: var(--wrong-light);   color: var(--wrong); }
-  .fitb-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+  .fitb-input.wrong { border-color: var(--wrong); background: var(--wrong-light); color: var(--wrong); }
+
+  .fitb-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
 
   .submit-btn {
-    padding: 8px 16px; background: var(--accent); color: white; border: none;
-    border-radius: 7px; font-family: var(--sans); font-size: 13px; font-weight: 500;
-    cursor: pointer; transition: opacity 0.15s;
+    padding: 9px 18px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
   }
+
   .submit-btn:hover { opacity: 0.85; }
   .submit-btn:disabled { opacity: 0.4; cursor: default; }
 
-  /* ── FEEDBACK ── */
-  .feedback { margin-top: 12px; font-size: 13px; line-height: 1.6; padding: 10px 14px; border-radius: 7px; display: none; }
-  .feedback.show   { display: block; }
-  .feedback.correct { background: var(--correct-light); color: var(--correct); }
-  .feedback.wrong   { background: var(--wrong-light);   color: var(--wrong); }
-
-  /* ── COMPLETE BANNER ── */
-  .complete-banner {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    padding: 40px; text-align: center; margin-top: 28px; display: none;
+  .feedback {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 10px 14px;
+    border-radius: 7px;
+    display: none;
   }
+
+  .feedback.show { display: block; }
+  .feedback.correct { background: var(--correct-light); color: var(--correct); }
+  .feedback.wrong { background: var(--wrong-light); color: var(--wrong); }
+
+  .complete-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 32px;
+    display: none;
+  }
+
   .complete-banner.show { display: block; }
-  .score-display { font-family: var(--mono); font-size: 48px; font-weight: 500; color: var(--accent); margin: 14px 0; }
-  .complete-banner > p { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+
+  .complete-banner p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .score-display {
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--accent);
+    margin: 16px 0;
+  }
 
   .next-section-btn {
-    padding: 11px 26px; background: var(--accent); color: white; border: none;
-    border-radius: 8px; font-family: var(--sans); font-size: 14px; font-weight: 500;
-    cursor: pointer; margin-top: 6px;
+    padding: 12px 28px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
   }
+
   .reset-btn {
-    padding: 9px 18px; background: none; border: 1.5px solid var(--border);
-    border-radius: 8px; font-family: var(--sans); font-size: 13px;
-    color: var(--muted); cursor: pointer; margin-left: 10px;
+    padding: 10px 20px;
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    margin-left: 10px;
   }
-
-  .hint-text { font-size: 12px; color: var(--muted); }
-
-  /* ── DIVIDER ── */
-  .rule-divider { height: 1px; background: var(--border); margin: 16px 0; }
 
   @media (max-width: 600px) {
-    header { padding: 14px 18px; }
-    nav { padding: 0 14px; overflow-x: auto; }
-    main { padding: 0 14px; margin-top: 24px; }
+    header { padding: 16px 20px; }
+    nav { padding: 0 16px; overflow-x: auto; }
+    main { padding: 0 16px; margin-top: 28px; }
     .choices { grid-template-columns: 1fr; }
-    .split-grid { grid-template-columns: 1fr; }
-    .warn-panel-body { grid-template-columns: 1fr; }
     .section-title { font-size: 22px; }
   }
 </style>
@@ -342,428 +441,305 @@
 
 <main>
 
-<!-- ═══════════════════════════════════════
-     SECTION 1: USED TO
-═══════════════════════════════════════ -->
-<div class="section active" id="section-0">
-  <div class="section-header">
-    <div class="section-label">Section 01</div>
-    <h2 class="section-title">Used To</h2>
-    <p class="section-desc">Past habits that are no longer true. Watch out for the "greedy verb" trap and the <em>is used to</em> mix-up.</p>
-  </div>
-
-  <!-- Rule Card -->
-  <div class="rule-card rc-blue">
-    <div class="rule-card-header">
-      <div class="rule-dot">1</div>
-      <div>
-        <div class="rule-heading">The Three Forms</div>
-        <div class="rule-sub">過去習慣 — no longer true now</div>
-      </div>
+  <!-- SECTION 1: USED TO -->
+  <div class="section active" id="section-0">
+    <div class="section-header">
+      <div class="section-label">Section 01</div>
+      <h2 class="section-title">Used To</h2>
+      <p class="section-desc">Past habits that are no longer true. Watch out for the "greedy verb" trap.</p>
     </div>
-    <div class="rule-card-body">
 
+    <div class="rule-card">
+      <h3>Quick Reference</h3>
       <table class="rule-table">
         <tr>
-          <td>Positive</td>
-          <td>She <code>used to</code> have short hair. &nbsp;<span style="color:var(--muted);font-size:12px;">（以前有短髮）</span></td>
+          <td style="vertical-align:top;padding-top:14px;">Past habit</td>
+          <td>
+            <div style="margin-bottom:4px;">主詞 + <code>used to</code> + 原形動詞</div>
+            <div style="color:var(--muted);font-size:13px;">過去經常…… (but no longer true)</div>
+            <div style="font-size:13px;margin-top:6px;color:#555;">My dad <code>used to</code> record her singing. <span style="color:var(--muted);">→ he doesn't anymore</span></div>
+          </td>
         </tr>
         <tr>
-          <td>Negative</td>
-          <td>She <code>didn't use to</code> eat vegetables. <span style="color:var(--wrong);font-size:12px;font-style:italic;">← no "d" on use!</span></td>
+          <td style="vertical-align:top;padding-top:14px;">Present habit / accustomed to</td>
+          <td>
+            <div style="margin-bottom:4px;">主詞 + <code>be/get used to</code> + N / V-ing</div>
+            <div style="color:var(--muted);font-size:13px;">習慣…… (current, ongoing)</div>
+            <div style="font-size:13px;margin-top:6px;color:#555;">My dad <code>is used to</code> recording her singing. <span style="color:var(--muted);">→ he does it regularly now</span></div>
+          </td>
         </tr>
         <tr>
-          <td>Question</td>
-          <td><code>Did</code> she <code>use to</code> live here? <span style="color:var(--wrong);font-size:12px;font-style:italic;">← no "d" on use!</span></td>
+          <td style="vertical-align:top;padding-top:14px;">Negative</td>
+          <td>
+            <div style="margin-bottom:4px;">主詞 + <code>didn't use to</code> + 原形動詞</div>
+            <div style="font-size:13px;margin-top:6px;color:#555;">Jeff <code>didn't use to</code> take pictures with his phone.</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;padding-top:14px;">Question</td>
+          <td>
+            <div style="margin-bottom:4px;"><code>Did</code> + 主詞 + <code>use to</code> + 原形動詞?</div>
+            <div style="font-size:13px;margin-top:6px;color:#555;"><code>Did</code> you <code>use to</code> make calls with LINE?</div>
+          </td>
         </tr>
       </table>
+      <div class="tip-box">💡 <strong>The Greedy Verb Rule:</strong> When "didn't" or "Did" enters the sentence, it steals the past tense — drop the "d" from "used". <strong>used to → use to</strong>.<br><br>⚠️ <strong>Key difference:</strong> <em>used to + V</em> (past, finished) vs. <em>be used to + V-ing</em> (present habit). The "-ing" is your signal it's a present habit!</div>
+    </div>
 
-      <div class="tip-box tip-amber" style="margin-top:14px;">
-        <span class="tip-icon">💡</span>
-        <span><strong>The Greedy Verb Rule:</strong> When <code>did</code> or <code>didn't</code> appears, it steals the past tense — drop the "d" from "used" → write <strong>use to</strong>.</span>
+    <div class="question-card" id="s0q1">
+      <div class="question-meta"><span class="q-number">Q1</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Anne _____ have short hair, but now she has long hair. She is really beautiful.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s0q1','A','A')"><span class="choice-label">A</span> used to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q1','B','A')"><span class="choice-label">B</span> must</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q1','C','A')"><span class="choice-label">C</span> is used to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q1','D','A')"><span class="choice-label">D</span> was going to</button>
       </div>
+      <div class="feedback" id="s0q1-fb"></div>
+    </div>
 
-      <div class="rule-divider"></div>
-
-      <!-- Trap: is used to -->
-      <div style="margin-bottom:6px; font-size:12px; font-family:var(--mono); text-transform:uppercase; letter-spacing:0.06em; color:var(--muted);">⚠️ The Big Trap</div>
-      <div class="split-grid">
-        <div class="split-box sb-blue">
-          <div class="sb-label">used to + verb</div>
-          <div class="sb-key">used to</div>
-          <div class="sb-note">過去習慣（已停止）<br>a past habit — finished</div>
-          <div class="sb-example">I <strong>used to</strong> wake up at 6am.<br>(I don't anymore.)</div>
-        </div>
-        <div class="split-box sb-amber">
-          <div class="sb-label">is/am/are used to + V-ing</div>
-          <div class="sb-key">is used to</div>
-          <div class="sb-note">習慣於（現在）<br>accustomed to — right now</div>
-          <div class="sb-example">Tom <strong>is used to</strong> waking up early.<br>(It's his routine now.)</div>
-        </div>
+    <div class="question-card" id="s0q2">
+      <div class="question-meta"><span class="q-number">Q2</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Harry: _____ Alice use to be a teacher?<br>William: Yes, she taught at a junior high school from 1990 to 2002.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s0q2','A','B')"><span class="choice-label">A</span> Does</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q2','B','B')"><span class="choice-label">B</span> Did</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q2','C','B')"><span class="choice-label">C</span> Was</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q2','D','B')"><span class="choice-label">D</span> Is</button>
       </div>
+      <div class="feedback" id="s0q2-fb"></div>
+    </div>
 
-      <div class="ex-row" style="margin-top:10px;">
-        <span class="ex-tag ex-tag-wrong">✗</span>
-        <span class="ex-wrong">Tom <strong>used to</strong> playing video games every night. It's his routine now.</span>
+    <div class="question-card" id="s0q3">
+      <div class="question-meta"><span class="q-number">Q3</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">I _____ hate coffee, but now I drink it every day.</p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s0q3-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s0q3',['used to'])">Check</button>
       </div>
-      <div class="ex-row">
-        <span class="ex-tag ex-tag-right">✓</span>
-        <span class="ex-right">Tom <strong>is used to</strong> playing video games every night.</span>
+      <div class="feedback" id="s0q3-fb"></div>
+    </div>
+
+    <div class="question-card" id="s0q4">
+      <div class="question-meta"><span class="q-number">Q4</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">_____ she use to live in Taipei? Yes, she did.</p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s0q4-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s0q4',['did','Did'])">Check</button>
       </div>
-      <div class="ex-note">現在的習慣 → is used to + V-ing</div>
-
+      <div class="feedback" id="s0q4-fb"></div>
     </div>
-  </div>
 
-  <!-- Q1 MC -->
-  <div class="question-card" id="s0q1">
-    <div class="question-meta"><span class="q-number">Q1</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">Anne _____ have short hair, but now she has long hair. She is really beautiful.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s0q1','A','A')"><span class="choice-label">A</span> used to</button>
-      <button class="choice-btn" onclick="checkMC(this,'s0q1','B','A')"><span class="choice-label">B</span> must</button>
-      <button class="choice-btn" onclick="checkMC(this,'s0q1','C','A')"><span class="choice-label">C</span> is used to</button>
-      <button class="choice-btn" onclick="checkMC(this,'s0q1','D','A')"><span class="choice-label">D</span> was going to</button>
-    </div>
-    <div class="feedback" id="s0q1-fb"></div>
-  </div>
-
-  <!-- Q2 MC -->
-  <div class="question-card" id="s0q2">
-    <div class="question-meta"><span class="q-number">Q2</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">Harry: _____ Alice use to be a teacher?<br>William: Yes, she taught at a junior high school from 1990 to 2002.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s0q2','A','B')"><span class="choice-label">A</span> Does</button>
-      <button class="choice-btn" onclick="checkMC(this,'s0q2','B','B')"><span class="choice-label">B</span> Did</button>
-      <button class="choice-btn" onclick="checkMC(this,'s0q2','C','B')"><span class="choice-label">C</span> Was</button>
-      <button class="choice-btn" onclick="checkMC(this,'s0q2','D','B')"><span class="choice-label">D</span> Is</button>
-    </div>
-    <div class="feedback" id="s0q2-fb"></div>
-  </div>
-
-  <!-- Q3 FITB -->
-  <div class="question-card" id="s0q3">
-    <div class="question-meta"><span class="q-number">Q3</span><span class="q-tag">Fill in the Blank</span></div>
-    <p class="question-text">I _____ hate coffee, but now I drink it every day.</p>
-    <div class="fitb-row">
-      <input class="fitb-input" id="s0q3-input" placeholder="type your answer…" autocomplete="off">
-      <button class="submit-btn" onclick="checkFITB('s0q3',['used to'])">Check</button>
-    </div>
-    <div class="feedback" id="s0q3-fb"></div>
-  </div>
-
-  <!-- Q4 FITB -->
-  <div class="question-card" id="s0q4">
-    <div class="question-meta"><span class="q-number">Q4</span><span class="q-tag">Fill in the Blank</span></div>
-    <p class="question-text">_____ she use to live in Taipei? Yes, she did.</p>
-    <div class="fitb-row">
-      <input class="fitb-input" id="s0q4-input" placeholder="type your answer…" autocomplete="off">
-      <button class="submit-btn" onclick="checkFITB('s0q4',['did','Did'])">Check</button>
-    </div>
-    <div class="feedback" id="s0q4-fb"></div>
-  </div>
-
-  <!-- Q5 FITB -->
-  <div class="question-card" id="s0q5">
-    <div class="question-meta"><span class="q-number">Q5</span><span class="q-tag">Fill in the Blank</span></div>
-    <p class="question-text">She _____ eat vegetables, but now she loves broccoli.<br><span class="hint-text">Hint: negative form</span></p>
-    <div class="fitb-row">
-      <input class="fitb-input" id="s0q5-input" placeholder="type your answer…" autocomplete="off">
-      <button class="submit-btn" onclick="checkFITB('s0q5',[`didn't use to`,`didn't use to`,`did not use to`])">Check</button>
-    </div>
-    <div class="feedback" id="s0q5-fb"></div>
-  </div>
-
-  <!-- Q6 MC -->
-  <div class="question-card" id="s0q6">
-    <div class="question-meta"><span class="q-number">Q6</span><span class="q-tag">Multiple Choice · Trap!</span></div>
-    <p class="question-text">Tom _____ playing video games every night. It's his daily routine now.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s0q6','A','B')"><span class="choice-label">A</span> used to</button>
-      <button class="choice-btn" onclick="checkMC(this,'s0q6','B','B')"><span class="choice-label">B</span> is used to</button>
-      <button class="choice-btn" onclick="checkMC(this,'s0q6','C','B')"><span class="choice-label">C</span> did use to</button>
-      <button class="choice-btn" onclick="checkMC(this,'s0q6','D','B')"><span class="choice-label">D</span> was used to</button>
-    </div>
-    <div class="feedback" id="s0q6-fb"></div>
-  </div>
-
-  <div class="complete-banner" id="s0-complete">
-    <p style="font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;">Section 01 Complete</p>
-    <div class="score-display" id="s0-score-display">–</div>
-    <p>Keep going — comparatives next.</p>
-    <button class="next-section-btn" onclick="switchTab(1)">Next Section →</button>
-    <button class="reset-btn" onclick="resetSection(0)">Retry</button>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════
-     SECTION 2: COMPARATIVES & SUPERLATIVES
-═══════════════════════════════════════ -->
-<div class="section" id="section-1">
-  <div class="section-header">
-    <div class="section-label">Section 02</div>
-    <h2 class="section-title">Comparatives &amp; Superlatives</h2>
-    <p class="section-desc">Comparing two things vs. the best/worst of a group. Watch for "than" and "the".</p>
-  </div>
-
-  <!-- Rule Card -->
-  <div class="rule-card rc-green">
-    <div class="rule-card-header">
-      <div class="rule-dot">2</div>
-      <div>
-        <div class="rule-heading">The Three Patterns</div>
-        <div class="rule-sub">比較級 / 最高級 / as…as</div>
+    <div class="question-card" id="s0q5">
+      <div class="question-meta"><span class="q-number">Q5</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">She _____ eat vegetables, but now she loves broccoli.<br><span style="font-size:12px;color:var(--muted);">(Hint: negative form)</span></p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s0q5-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s0q5',[&quot;didn't use to&quot;,&quot;did not use to&quot;])">Check</button>
       </div>
+      <div class="feedback" id="s0q5-fb"></div>
     </div>
-    <div class="rule-card-body">
 
-      <div class="split-grid">
-        <div class="split-box sb-green">
-          <div class="sb-label">Comparative 比較級</div>
-          <div class="sb-key">-er / more … than</div>
-          <div class="sb-note">Comparing 2 things</div>
-          <div class="sb-example">Janet is <strong>taller than</strong> Linda.<br>This is <strong>more useful than</strong> that.</div>
-        </div>
-        <div class="split-box sb-amber">
-          <div class="sb-label">Superlative 最高級</div>
-          <div class="sb-key">the -est / the most …</div>
-          <div class="sb-note">Best/worst in a group</div>
-          <div class="sb-example">Karen is <strong>the most interesting</strong> of all.<br>He is <strong>the tallest</strong> in the class.</div>
-        </div>
+    <div class="question-card" id="s0q6">
+      <div class="question-meta"><span class="q-number">Q6</span><span class="q-tag">Multiple Choice · Trap!</span></div>
+      <p class="question-text">Tom _____ playing video games every night. It's his daily routine now.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s0q6','A','B')"><span class="choice-label">A</span> used to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q6','B','B')"><span class="choice-label">B</span> is used to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q6','C','B')"><span class="choice-label">C</span> did use to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q6','D','B')"><span class="choice-label">D</span> was used to</button>
       </div>
+      <div class="feedback" id="s0q6-fb"></div>
+    </div>
 
-      <div class="rule-divider"></div>
+    <div class="complete-banner" id="s0-complete">
+      <p style="font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;">Section 01 Complete</p>
+      <div class="score-display" id="s0-score-display">–</div>
+      <p>Keep going — comparatives next.</p>
+      <button class="next-section-btn" onclick="switchTab(1)">Next Section →</button>
+      <button class="reset-btn" onclick="resetSection(0)">Retry</button>
+    </div>
+  </div>
 
+  <!-- SECTION 2: COMPARATIVES -->
+  <div class="section" id="section-1">
+    <div class="section-header">
+      <div class="section-label">Section 02</div>
+      <h2 class="section-title">Comparatives & Superlatives</h2>
+      <p class="section-desc">Comparing two things vs. the best/worst of a group. Watch for "than" and "the".</p>
+    </div>
+
+    <div class="rule-card">
+      <h3>Quick Reference</h3>
       <table class="rule-table">
-        <tr>
-          <td>As … as</td>
-          <td>Ted is as healthy <code>as</code> Daniel. &nbsp;<span style="color:var(--muted);font-size:12px;">（一樣健康）equal comparison</span></td>
-        </tr>
+        <tr><td>Comparative</td><td>adjective + <code>-er</code> / <code>more</code> + adj + <code>than</code></td></tr>
+        <tr><td>Superlative</td><td><code>the</code> + adj + <code>-est</code> / <code>the most</code> + adj</td></tr>
+        <tr><td>As … as</td><td>Ted is as healthy <code>as</code> Daniel. (equal)</td></tr>
+        <tr><td>Trap ⚠️</td><td>See "than"? → comparative. See "of all"? → superlative.</td></tr>
       </table>
+      <div class="tip-box">💡 <strong>The "than" rule:</strong> If you see "than" in the sentence, you MUST use a comparative — never a superlative. "The most" never goes with "than".</div>
+    </div>
 
-      <div class="tip-box tip-green" style="margin-top:12px;">
-        <span class="tip-icon">⚡</span>
-        <div>
-          <strong>The "than" rule:</strong> See <code>than</code> in the sentence? → Must use comparative. <code>the most</code> never goes with <code>than</code>.<br>
-          <strong>The "of all" rule:</strong> See <code>of all</code>? → Must use superlative.
-        </div>
+    <div class="question-card" id="s1q1">
+      <div class="question-meta"><span class="q-number">Q1</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">The refrigerator is NT$70,000. No other machine in the store is _____ expensive than it.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s1q1','A','D')"><span class="choice-label">A</span> much</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q1','B','D')"><span class="choice-label">B</span> as much</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q1','C','D')"><span class="choice-label">C</span> the most</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q1','D','D')"><span class="choice-label">D</span> more</button>
       </div>
+      <div class="feedback" id="s1q1-fb"></div>
+    </div>
 
-      <div class="rule-divider"></div>
-
-      <div class="ex-row">
-        <span class="ex-tag ex-tag-wrong">✗</span>
-        <span class="ex-wrong">No other machine is <strong>the most</strong> expensive than it.</span>
+    <div class="question-card" id="s1q2">
+      <div class="question-meta"><span class="q-number">Q2</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Karen is _____ of all. She tells good jokes.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s1q2','A','D')"><span class="choice-label">A</span> interesting</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q2','B','D')"><span class="choice-label">B</span> more interesting</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q2','C','D')"><span class="choice-label">C</span> as interesting</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q2','D','D')"><span class="choice-label">D</span> the most interesting</button>
       </div>
-      <div class="ex-row">
-        <span class="ex-tag ex-tag-right">✓</span>
-        <span class="ex-right">No other machine is <strong>more</strong> expensive than it.</span>
+      <div class="feedback" id="s1q2-fb"></div>
+    </div>
+
+    <div class="question-card" id="s1q3">
+      <div class="question-meta"><span class="q-number">Q3</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Ted is as healthy _____ Daniel. He seldom gets sick or catches a cold.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s1q3','A','B')"><span class="choice-label">A</span> than</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q3','B','B')"><span class="choice-label">B</span> as</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q3','C','B')"><span class="choice-label">C</span> of</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q3','D','B')"><span class="choice-label">D</span> like</button>
       </div>
-      <div class="ex-note">見到 "than" → 用比較級，不用最高級</div>
-
+      <div class="feedback" id="s1q3-fb"></div>
     </div>
-  </div>
 
-  <!-- Q1 MC -->
-  <div class="question-card" id="s1q1">
-    <div class="question-meta"><span class="q-number">Q1</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">The refrigerator is NT$70,000. No other machine in the store is _____ expensive than it.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s1q1','A','D')"><span class="choice-label">A</span> much</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q1','B','D')"><span class="choice-label">B</span> as much</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q1','C','D')"><span class="choice-label">C</span> the most</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q1','D','D')"><span class="choice-label">D</span> more</button>
-    </div>
-    <div class="feedback" id="s1q1-fb"></div>
-  </div>
-
-  <!-- Q2 MC -->
-  <div class="question-card" id="s1q2">
-    <div class="question-meta"><span class="q-number">Q2</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">Karen is _____ of all. She tells good jokes.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s1q2','A','D')"><span class="choice-label">A</span> interesting</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q2','B','D')"><span class="choice-label">B</span> more interesting</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q2','C','D')"><span class="choice-label">C</span> as interesting</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q2','D','D')"><span class="choice-label">D</span> the most interesting</button>
-    </div>
-    <div class="feedback" id="s1q2-fb"></div>
-  </div>
-
-  <!-- Q3 MC -->
-  <div class="question-card" id="s1q3">
-    <div class="question-meta"><span class="q-number">Q3</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">Ted is as healthy _____ Daniel. He seldom gets sick or catches a cold.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s1q3','A','B')"><span class="choice-label">A</span> than</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q3','B','B')"><span class="choice-label">B</span> as</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q3','C','B')"><span class="choice-label">C</span> of</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q3','D','B')"><span class="choice-label">D</span> like</button>
-    </div>
-    <div class="feedback" id="s1q3-fb"></div>
-  </div>
-
-  <!-- Q4 FITB -->
-  <div class="question-card" id="s1q4">
-    <div class="question-meta"><span class="q-number">Q4</span><span class="q-tag">Fill in the Blank</span></div>
-    <p class="question-text">Janet's clothes are more fashionable _____ Linda's.</p>
-    <div class="fitb-row">
-      <input class="fitb-input" id="s1q4-input" placeholder="type your answer…" autocomplete="off">
-      <button class="submit-btn" onclick="checkFITB('s1q4',['than'])">Check</button>
-    </div>
-    <div class="feedback" id="s1q4-fb"></div>
-  </div>
-
-  <!-- Q5 FITB -->
-  <div class="question-card" id="s1q5">
-    <div class="question-meta"><span class="q-number">Q5</span><span class="q-tag">Fill in the Blank</span></div>
-    <p class="question-text">William is the _____ teacher in the school.<br><span class="hint-text">(young → superlative)</span></p>
-    <div class="fitb-row">
-      <input class="fitb-input" id="s1q5-input" placeholder="type your answer…" autocomplete="off">
-      <button class="submit-btn" onclick="checkFITB('s1q5',['youngest'])">Check</button>
-    </div>
-    <div class="feedback" id="s1q5-fb"></div>
-  </div>
-
-  <!-- Q6 MC -->
-  <div class="question-card" id="s1q6">
-    <div class="question-meta"><span class="q-number">Q6</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">Coats today are not as heavy as _____ in the past. They are lighter now.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s1q6','A','C')"><span class="choice-label">A</span> ones</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q6','B','C')"><span class="choice-label">B</span> them</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q6','C','C')"><span class="choice-label">C</span> they were</button>
-      <button class="choice-btn" onclick="checkMC(this,'s1q6','D','C')"><span class="choice-label">D</span> the one</button>
-    </div>
-    <div class="feedback" id="s1q6-fb"></div>
-  </div>
-
-  <div class="complete-banner" id="s1-complete">
-    <p style="font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;">Section 02 Complete</p>
-    <div class="score-display" id="s1-score-display">–</div>
-    <p>One more section — vocabulary!</p>
-    <button class="next-section-btn" onclick="switchTab(2)">Next Section →</button>
-    <button class="reset-btn" onclick="resetSection(1)">Retry</button>
-  </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════
-     SECTION 3: VOCABULARY
-═══════════════════════════════════════ -->
-<div class="section" id="section-2">
-  <div class="section-header">
-    <div class="section-label">Section 03</div>
-    <h2 class="section-title">Vocabulary</h2>
-    <p class="section-desc">Key words from Unit 1–2. Read the context carefully before choosing.</p>
-  </div>
-
-  <!-- Rule Card -->
-  <div class="rule-card rc-purple">
-    <div class="rule-card-header">
-      <div class="rule-dot">3</div>
-      <div>
-        <div class="rule-heading">Words to Know</div>
-        <div class="rule-sub">Context clues — read the whole sentence first</div>
+    <div class="question-card" id="s1q4">
+      <div class="question-meta"><span class="q-number">Q4</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">Janet's clothes are more fashionable _____ Linda's.</p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s1q4-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s1q4',['than'])">Check</button>
       </div>
+      <div class="feedback" id="s1q4-fb"></div>
     </div>
-    <div class="rule-card-body">
-      <table class="rule-table">
-        <tr><td>actually</td><td><strong>Actually</strong> — introduces a surprising or extra fact. &nbsp;<span style="color:var(--muted);font-size:12px;">（其實 / 事實上）</span></td></tr>
-        <tr><td>tip</td><td><strong>Tip</strong> — helpful advice or a trick to solve a problem</td></tr>
-        <tr><td>fitting room</td><td><strong>Fitting room</strong> — where you try on clothes in a store &nbsp;<span style="color:var(--muted);font-size:12px;">（試衣間）</span></td></tr>
-        <tr><td>agree</td><td><strong>Agree</strong> — to have the same opinion &nbsp;<span style="color:var(--muted);font-size:12px;">（同意）</span></td></tr>
-        <tr><td>useful</td><td><strong>Useful</strong> — helpful, convenient &nbsp;<span style="color:var(--muted);font-size:12px;">（有用的）</span></td></tr>
-      </table>
-      <div class="tip-box tip-blue" style="margin-top:12px;">
-        <span class="tip-icon">💡</span>
-        <span><strong>Strategy:</strong> Don't just pick the first word that looks right — check that it fits the <em>whole</em> sentence, especially the second half.</span>
+
+    <div class="question-card" id="s1q5">
+      <div class="question-meta"><span class="q-number">Q5</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">William is the _____ teacher in the school.<br><span style="font-size:12px;color:var(--muted);">(young → superlative)</span></p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s1q5-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s1q5',['youngest'])">Check</button>
       </div>
+      <div class="feedback" id="s1q5-fb"></div>
+    </div>
+
+    <div class="question-card" id="s1q6">
+      <div class="question-meta"><span class="q-number">Q6</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Coats today are not as heavy as _____ in the past. They are lighter now.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s1q6','A','C')"><span class="choice-label">A</span> ones</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q6','B','C')"><span class="choice-label">B</span> them</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q6','C','C')"><span class="choice-label">C</span> they were</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q6','D','C')"><span class="choice-label">D</span> the one</button>
+      </div>
+      <div class="feedback" id="s1q6-fb"></div>
+    </div>
+
+    <div class="complete-banner" id="s1-complete">
+      <p style="font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;">Section 02 Complete</p>
+      <div class="score-display" id="s1-score-display">–</div>
+      <p>One more section — vocabulary!</p>
+      <button class="next-section-btn" onclick="switchTab(2)">Next Section →</button>
+      <button class="reset-btn" onclick="resetSection(1)">Retry</button>
     </div>
   </div>
 
-  <!-- Q1 MC -->
-  <div class="question-card" id="s2q1">
-    <div class="question-meta"><span class="q-number">Q1</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">Alice: Is Jessica rich?<br>Barry: Yes, very rich. _____, she has ten houses in Taipei.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s2q1','A','D')"><span class="choice-label">A</span> Finally</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q1','B','D')"><span class="choice-label">B</span> Sadly</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q1','C','D')"><span class="choice-label">C</span> Already</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q1','D','D')"><span class="choice-label">D</span> Actually</button>
+  <!-- SECTION 3: VOCABULARY -->
+  <div class="section" id="section-2">
+    <div class="section-header">
+      <div class="section-label">Section 03</div>
+      <h2 class="section-title">Vocabulary</h2>
+      <p class="section-desc">Key words from Unit 1–2. Read the context carefully before choosing.</p>
     </div>
-    <div class="feedback" id="s2q1-fb"></div>
-  </div>
 
-  <!-- Q2 MC -->
-  <div class="question-card" id="s2q2">
-    <div class="question-meta"><span class="q-number">Q2</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">The orange cat weighs 5.2 kg, and the black one weighs 6.4 kg, so the orange one is _____.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s2q2','A','B')"><span class="choice-label">A</span> fresher</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q2','B','B')"><span class="choice-label">B</span> lighter</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q2','C','B')"><span class="choice-label">C</span> sweeter</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q2','D','B')"><span class="choice-label">D</span> stranger</button>
+    <div class="question-card" id="s2q1">
+      <div class="question-meta"><span class="q-number">Q1</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Alice: Is Jessica rich?<br>Barry: Yes, very rich. _____, she has ten houses in Taipei.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s2q1','A','D')"><span class="choice-label">A</span> Finally</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q1','B','D')"><span class="choice-label">B</span> Sadly</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q1','C','D')"><span class="choice-label">C</span> Already</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q1','D','D')"><span class="choice-label">D</span> Actually</button>
+      </div>
+      <div class="feedback" id="s2q1-fb"></div>
     </div>
-    <div class="feedback" id="s2q2-fb"></div>
-  </div>
 
-  <!-- Q3 MC -->
-  <div class="question-card" id="s2q3">
-    <div class="question-meta"><span class="q-number">Q3</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">I couldn't open the new app on my phone. The shop clerk gave me a _____ to fix it.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s2q3','A','C')"><span class="choice-label">A</span> bow</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q3','B','C')"><span class="choice-label">B</span> part</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q3','C','C')"><span class="choice-label">C</span> tip</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q3','D','C')"><span class="choice-label">D</span> scam</button>
+    <div class="question-card" id="s2q2">
+      <div class="question-meta"><span class="q-number">Q2</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">The orange cat weighs 5.2 kg, and the black one weighs 6.4 kg, so the orange one is _____.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s2q2','A','B')"><span class="choice-label">A</span> fresher</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q2','B','B')"><span class="choice-label">B</span> lighter</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q2','C','B')"><span class="choice-label">C</span> sweeter</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q2','D','B')"><span class="choice-label">D</span> stranger</button>
+      </div>
+      <div class="feedback" id="s2q2-fb"></div>
     </div>
-    <div class="feedback" id="s2q3-fb"></div>
-  </div>
 
-  <!-- Q4 FITB -->
-  <div class="question-card" id="s2q4">
-    <div class="question-meta"><span class="q-number">Q4</span><span class="q-tag">Fill in the Blank</span></div>
-    <p class="question-text">Linda always spends a lot of time trying on new clothes in the f_____g room.<br><span class="hint-text">Hint: where you try on clothes in a store</span></p>
-    <div class="fitb-row">
-      <input class="fitb-input" id="s2q4-input" placeholder="type your answer…" autocomplete="off">
-      <button class="submit-btn" onclick="checkFITB('s2q4',['fitting'])">Check</button>
+    <div class="question-card" id="s2q3">
+      <div class="question-meta"><span class="q-number">Q3</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">I couldn't open the new app on my phone. The shop clerk gave me a _____ to fix it.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s2q3','A','C')"><span class="choice-label">A</span> bow</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q3','B','C')"><span class="choice-label">B</span> part</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q3','C','C')"><span class="choice-label">C</span> tip</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q3','D','C')"><span class="choice-label">D</span> scam</button>
+      </div>
+      <div class="feedback" id="s2q3-fb"></div>
     </div>
-    <div class="feedback" id="s2q4-fb"></div>
-  </div>
 
-  <!-- Q5 MC -->
-  <div class="question-card" id="s2q5">
-    <div class="question-meta"><span class="q-number">Q5</span><span class="q-tag">Multiple Choice</span></div>
-    <p class="question-text">Ben and I don't _____ about everything. We often fight.</p>
-    <div class="choices">
-      <button class="choice-btn" onclick="checkMC(this,'s2q5','A','A')"><span class="choice-label">A</span> agree</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q5','B','A')"><span class="choice-label">B</span> mean</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q5','C','A')"><span class="choice-label">C</span> trick</button>
-      <button class="choice-btn" onclick="checkMC(this,'s2q5','D','A')"><span class="choice-label">D</span> stay</button>
+    <div class="question-card" id="s2q4">
+      <div class="question-meta"><span class="q-number">Q4</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">Linda always spends a lot of time trying on new clothes in the f_____g room.<br><span style="font-size:12px;color:var(--muted);">Hint: where you try on clothes in a store</span></p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s2q4-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s2q4',['fitting'])">Check</button>
+      </div>
+      <div class="feedback" id="s2q4-fb"></div>
     </div>
-    <div class="feedback" id="s2q5-fb"></div>
-  </div>
 
-  <!-- Q6 FITB -->
-  <div class="question-card" id="s2q6">
-    <div class="question-meta"><span class="q-number">Q6</span><span class="q-tag">Fill in the Blank</span></div>
-    <p class="question-text">Google Maps is u_____l. With it, you can save a lot of time when you visit a big city.<br><span class="hint-text">Hint: very helpful / convenient</span></p>
-    <div class="fitb-row">
-      <input class="fitb-input" id="s2q6-input" placeholder="type your answer…" autocomplete="off">
-      <button class="submit-btn" onclick="checkFITB('s2q6',['useful'])">Check</button>
+    <div class="question-card" id="s2q5">
+      <div class="question-meta"><span class="q-number">Q5</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Ben and I don't _____ about everything. We often fight.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s2q5','A','A')"><span class="choice-label">A</span> agree</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q5','B','A')"><span class="choice-label">B</span> mean</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q5','C','A')"><span class="choice-label">C</span> trick</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q5','D','A')"><span class="choice-label">D</span> stay</button>
+      </div>
+      <div class="feedback" id="s2q5-fb"></div>
     </div>
-    <div class="feedback" id="s2q6-fb"></div>
-  </div>
 
-  <div class="complete-banner" id="s2-complete">
-    <p style="font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;">All Sections Complete 🎉</p>
-    <div class="score-display" id="s2-score-display">–</div>
-    <p id="final-message">Great work, Hankson!</p>
-    <button class="reset-btn" onclick="resetAll()" style="margin-left:0;">Start Over</button>
+    <div class="question-card" id="s2q6">
+      <div class="question-meta"><span class="q-number">Q6</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">Google Maps is u_____l. With it, you can save a lot of time when you visit a big city.<br><span style="font-size:12px;color:var(--muted);">Hint: very helpful / convenient</span></p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s2q6-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s2q6',['useful'])">Check</button>
+      </div>
+      <div class="feedback" id="s2q6-fb"></div>
+    </div>
+
+    <div class="complete-banner" id="s2-complete">
+      <p style="font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;">All Sections Complete 🎉</p>
+      <div class="score-display" id="s2-score-display">–</div>
+      <p id="final-message">Great work, Hankson!</p>
+      <button class="reset-btn" onclick="resetAll()" style="margin-left:0;">Start Over</button>
+    </div>
   </div>
-</div>
 
 </main>
 
@@ -778,78 +754,24 @@
   };
 
   const feedbackMessages = {
-    's0q1': {
-      correct: '✓ Correct! "used to" = a past habit that stopped. "but now she has long hair" confirms it\'s over.',
-      wrong: '✗ Option C is a trap. "is used to" means accustomed to (present). The sentence says "but now she has long hair" — this is a past habit. Answer: A — used to.'
-    },
-    's0q2': {
-      correct: '✓ Correct! "Did" is the greedy verb. It steals the past tense, so we drop the "d" from "used" → "use to".',
-      wrong: '✗ For questions with "use to", use "Did". Answer: B — Did.'
-    },
-    's0q3': {
-      correct: '✓ Perfect! "used to" for a past habit that stopped.',
-      wrong: '✗ We need "used to" — a past habit that is no longer true. Answer: used to'
-    },
-    's0q4': {
-      correct: '✓ Correct! Questions with "use to" need "Did" at the front.',
-      wrong: '✗ For questions with "use to", use "Did". Answer: Did'
-    },
-    's0q5': {
-      correct: "✓ Correct! Negative = \"didn't use to\" (no \"d\" on use!).",
-      wrong: "✗ Negative form = \"didn't use to\". Don't write \"didn't used to\" — \"Did\" steals the \"d\". Answer: didn't use to"
-    },
-    's0q6': {
-      correct: '✓ Correct! "is used to" + V-ing = current habit / accustomed to. The clue is "daily routine now".',
-      wrong: '✗ "It\'s his daily routine NOW" = a current habit. Use "is used to" + V-ing. Answer: B — is used to.'
-    },
-    's1q1': {
-      correct: '✓ Correct! You see "than" in the sentence → must use comparative: "more".',
-      wrong: '✗ The key word is "than" — this signals a comparative. "The most" never goes with "than". Answer: D — more.'
-    },
-    's1q2': {
-      correct: '✓ Correct! "of all" signals superlative → "the most interesting".',
-      wrong: '✗ "of all" signals you need a superlative. Answer: D — the most interesting.'
-    },
-    's1q3': {
-      correct: '✓ Correct! "as … as" structure for equal comparison.',
-      wrong: '✗ The pattern is "as + adjective + as". Answer: B — as.'
-    },
-    's1q4': {
-      correct: '✓ Correct! Comparative always pairs with "than".',
-      wrong: '✗ "more fashionable" is a comparative, so it pairs with "than". Answer: than'
-    },
-    's1q5': {
-      correct: "✓ Correct! Superlative of \"young\" = \"youngest\". Don't forget \"the\" before it!",
-      wrong: '✗ Superlative of young = youngest. And remember "the youngest". Answer: youngest'
-    },
-    's1q6': {
-      correct: '✓ Correct! "not as heavy as they were in the past" — comparing coats now vs. coats then.',
-      wrong: '✗ We\'re comparing coats now vs. coats in the past. "they were" refers back to "coats in the past". Answer: C — they were.'
-    },
-    's2q1': {
-      correct: '✓ Correct! "Actually" introduces a surprising or additional fact.',
-      wrong: '✗ Barry is adding a surprising fact (ten houses!). "Actually" introduces surprising facts. Answer: D — Actually.'
-    },
-    's2q2': {
-      correct: '✓ Correct! 5.2 kg < 6.4 kg, so the orange cat is lighter.',
-      wrong: '✗ 5.2 kg is less than 6.4 kg, so the orange cat weighs less = lighter. Answer: B — lighter.'
-    },
-    's2q3': {
-      correct: '✓ Correct! A "tip" = helpful advice or a trick to solve a problem.',
-      wrong: '✗ The clerk helped him solve the problem by giving advice = a tip. Answer: C — tip.'
-    },
-    's2q4': {
-      correct: '✓ Correct! The fitting room is where you try on clothes in a store.',
-      wrong: '✗ The word is "fitting" — the fitting room (試衣間). Answer: fitting'
-    },
-    's2q5': {
-      correct: "✓ Correct! \"don't agree\" = have different opinions. That's why they fight.",
-      wrong: "✗ If they fight about everything, they don't agree. Answer: A — agree."
-    },
-    's2q6': {
-      correct: '✓ Correct! "useful" = helpful, saves time.',
-      wrong: '✗ The word is "useful" (有用的). u-s-e-f-u-l. Answer: useful'
-    }
+    's0q1': { correct: '✓ Correct! "used to" = past habit that stopped. "is used to" (Option C) would need -ing: "is used to having".', wrong: '✗ Option C is a trap. "is used to" means accustomed to (present). The sentence says "but now she has long hair" — this is a past habit. Answer: A — used to.' },
+    's0q2': { correct: '✓ Correct! "Did" is the greedy verb. It steals the past tense, so we drop the "d" from "used" → "use to".', wrong: '✗ The word "use" has no "d", so a greedy past verb must go in the blank. Answer: B — Did.' },
+    's0q3': { correct: '✓ Perfect! "used to" for a past habit that stopped.', wrong: '✗ We need "used to" — a past habit that is no longer true. Answer: used to' },
+    's0q4': { correct: '✓ Correct! Questions with "use to" need "Did" at the front.', wrong: '✗ For questions with "use to", use "Did". Answer: Did' },
+    's0q5': { correct: '✓ Correct! Negative = "didn\'t use to" (no "d" on use!).', wrong: '✗ Negative form = "didn\'t use to". Don\'t write "didn\'t used to" — "Did" steals the "d". Answer: didn\'t use to' },
+    's0q6': { correct: '✓ Correct! "is used to" + V-ing = current habit / accustomed to. The clue is "daily routine now".', wrong: '✗ "It\'s his daily routine NOW" = a current habit. Use "is used to" + V-ing. Answer: B — is used to.' },
+    's1q1': { correct: '✓ Correct! You see "than" in the sentence → must use comparative: "more".', wrong: '✗ The key word is "than" — this signals a comparative. "The most" never goes with "than". Answer: D — more.' },
+    's1q2': { correct: '✓ Correct! "of all" signals superlative → "the most interesting".', wrong: '✗ "of all" signals you need a superlative. Answer: D — the most interesting.' },
+    's1q3': { correct: '✓ Correct! "as … as" structure for equal comparison.', wrong: '✗ The pattern is "as + adjective + as". Answer: B — as.' },
+    's1q4': { correct: '✓ Correct! Comparative always pairs with "than".', wrong: '✗ "more fashionable" is a comparative, so it pairs with "than". Answer: than' },
+    's1q5': { correct: '✓ Correct! Superlative of "young" = "youngest". Don\'t forget "the" before it!', wrong: '✗ Superlative of young = youngest. And remember "the youngest". Answer: youngest' },
+    's1q6': { correct: '✓ Correct! "not as heavy as they were in the past" — comparing coats now vs. coats then.', wrong: '✗ We\'re comparing coats now vs. coats in the past. "they were" refers back to "coats in the past". Answer: C — they were.' },
+    's2q1': { correct: '✓ Correct! "Actually" introduces a surprising or additional fact.', wrong: '✗ Barry is adding a surprising fact (ten houses!). "Actually" introduces surprising facts. Answer: D — Actually.' },
+    's2q2': { correct: '✓ Correct! 5.2 kg < 6.4 kg, so the orange cat is lighter.', wrong: '✗ 5.2 kg is less than 6.4 kg, so the orange cat weighs less = lighter. Answer: B — lighter.' },
+    's2q3': { correct: '✓ Correct! A "tip" = helpful advice or a trick to solve a problem.', wrong: '✗ The clerk helped him solve the problem by giving advice = a tip. Answer: C — tip.' },
+    's2q4': { correct: '✓ Correct! The fitting room is where you try on clothes in a store.', wrong: '✗ The word is "fitting" — the fitting room (試衣間). Answer: fitting' },
+    's2q5': { correct: '✓ Correct! "don\'t agree" = have different opinions. That\'s why they fight.', wrong: '✗ If they fight about everything, they don\'t agree. Answer: A — agree.' },
+    's2q6': { correct: '✓ Correct! "useful" = helpful, saves time.', wrong: '✗ The word is "useful" (有用的). u-s-e-f-u-l. Answer: useful' }
   };
 
   function checkMC(btn, cardId, chosen, correct) {
@@ -869,9 +791,7 @@
     } else {
       btn.classList.add('selected-wrong');
       card.classList.add('wrong');
-      btns.forEach(b => {
-        if (b.querySelector('.choice-label').textContent === correct) b.classList.add('reveal-correct');
-      });
+      btns.forEach(b => { if (b.querySelector('.choice-label').textContent === correct) b.classList.add('reveal-correct'); });
       fb.textContent = feedbackMessages[cardId].wrong;
       fb.className = 'feedback wrong show';
     }
@@ -952,7 +872,8 @@
     const s = state.sections[sIdx];
     s.answered = 0; s.correct = 0; s.done = false;
     document.getElementById('s' + sIdx + '-complete').classList.remove('show');
-    document.getElementById('section-' + sIdx).querySelectorAll('.question-card').forEach(card => {
+    const sec = document.getElementById('section-' + sIdx);
+    sec.querySelectorAll('.question-card').forEach(card => {
       card.className = 'question-card';
       card.querySelectorAll('.choice-btn').forEach(b => { b.disabled = false; b.className = 'choice-btn'; });
       const fb = card.querySelector('.feedback');
