@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hankson's English Review</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --border: #e0ddd6;
+    --text: #1a1a1a;
+    --muted: #888880;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --correct: #16a34a;
+    --correct-light: #f0fdf4;
+    --wrong: #dc2626;
+    --wrong-light: #fef2f2;
+    --tag-bg: #f0ede8;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-left h1 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .header-left p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-family: var(--mono);
+  }
+
+  .score-badge {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--tag-bg);
+    padding: 6px 14px;
+    border-radius: 20px;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .score-badge span {
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  /* NAV TABS */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+  }
+
+  .tab-btn {
+    padding: 14px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
+  }
+
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* PROGRESS BAR */
+  .section-progress {
+    height: 3px;
+    background: var(--border);
+    margin: 0;
+  }
+  .section-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+
+  /* MAIN CONTENT */
+  main {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 0 24px;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    margin-bottom: 32px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .section-desc {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* GRAMMAR RULE CARD */
+  .rule-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+
+  .rule-card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .rule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .rule-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  .rule-table tr:last-child td { border-bottom: none; }
+
+  .rule-table td:first-child {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    width: 90px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .rule-table code {
+    font-family: var(--mono);
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  .tip-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    margin-top: 16px;
+    line-height: 1.6;
+    color: #78350f;
+  }
+
+  .tip-box strong { font-weight: 600; }
+
+  /* QUESTION CARDS */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s;
+  }
+
+  .question-card.correct { border-color: var(--correct); background: var(--correct-light); }
+  .question-card.wrong { border-color: var(--wrong); background: var(--wrong-light); }
+
+  .question-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .q-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    background: var(--tag-bg);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .q-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .question-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .blank {
+    display: inline-block;
+    min-width: 100px;
+    border-bottom: 2px solid var(--accent);
+    margin: 0 4px;
+    vertical-align: bottom;
+    line-height: 1.8;
+  }
+
+  /* MULTIPLE CHOICE */
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .choice-btn {
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 14px;
+    text-align: left;
+    transition: all 0.15s;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .choice-btn.selected-correct {
+    border-color: var(--correct);
+    background: var(--correct-light);
+    color: var(--correct);
+  }
+
+  .choice-btn.selected-wrong {
+    border-color: var(--wrong);
+    background: var(--wrong-light);
+    color: var(--wrong);
+  }
+
+  .choice-btn.reveal-correct {
+    border-color: var(--correct);
+    background: var(--correct-light);
+    color: var(--correct);
+  }
+
+  .choice-btn:disabled { cursor: default; }
+
+  .choice-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    min-width: 16px;
+  }
+
+  /* FILL IN THE BLANK */
+  .fitb-input {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: var(--sans);
+    font-size: 15px;
+    width: 200px;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color 0.15s;
+    outline: none;
+  }
+
+  .fitb-input:focus { border-color: var(--accent); }
+  .fitb-input.correct { border-color: var(--correct); background: var(--correct-light); color: var(--correct); }
+  .fitb-input.wrong { border-color: var(--wrong); background: var(--wrong-light); color: var(--wrong); }
+
+  .fitb-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .submit-btn {
+    padding: 9px 18px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .submit-btn:hover { opacity: 0.85; }
+  .submit-btn:disabled { opacity: 0.4; cursor: default; }
+
+  /* FEEDBACK */
+  .feedback {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 10px 14px;
+    border-radius: 7px;
+    display: none;
+  }
+
+  .feedback.show { display: block; }
+  .feedback.correct { background: var(--correct-light); color: var(--correct); }
+  .feedback.wrong { background: var(--wrong-light); color: var(--wrong); }
+
+  /* SECTION COMPLETE */
+  .complete-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 32px;
+    display: none;
+  }
+
+  .complete-banner.show { display: block; }
+
+  .complete-banner h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .complete-banner p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .score-display {
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--accent);
+    margin: 16px 0;
+  }
+
+  .next-section-btn {
+    padding: 12px 28px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  .reset-btn {
+    padding: 10px 20px;
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; }
+    nav { padding: 0 16px; overflow-x: auto; }
+    main { padding: 0 16px; margin-top: 28px; }
+    .choices { grid-template-columns: 1fr; }
+    .section-title { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Hankson's English Review</h1>
+    <p>G2 · Unit 1–2 · Lesson 1~2</p>
+  </div>
+  <div class="score-badge">Score: <span id="total-score">0</span> / <span id="total-possible">0</span></div>
+</header>
+
+<nav>
+  <button class="tab-btn active" onclick="switchTab(0)">Used To</button>
+  <button class="tab-btn" onclick="switchTab(1)">Comparatives</button>
+  <button class="tab-btn" onclick="switchTab(2)">Vocabulary</button>
+</nav>
+<div class="section-progress"><div class="section-progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+<main>
+
+  <!-- ===================== SECTION 1: USED TO ===================== -->
+  <div class="section active" id="section-0">
+    <div class="section-header">
+      <div class="section-label">Section 01</div>
+      <h2 class="section-title">Used To</h2>
+      <p class="section-desc">Past habits that are no longer true. Watch out for the "greedy verb" trap.</p>
+    </div>
+
+    <div class="rule-card">
+      <h3>Quick Reference</h3>
+      <table class="rule-table">
+        <tr>
+          <td>Positive</td>
+          <td>She <code>used to</code> have short hair.</td>
+        </tr>
+        <tr>
+          <td>Negative</td>
+          <td>She <code>didn't use to</code> eat vegetables. <em style="color:var(--muted);font-size:12px;">(no "d"!)</em></td>
+        </tr>
+        <tr>
+          <td>Question</td>
+          <td><code>Did</code> she <code>use to</code> live here? <em style="color:var(--muted);font-size:12px;">(no "d"!)</em></td>
+        </tr>
+        <tr>
+          <td>Trap ⚠️</td>
+          <td><code>is used to</code> + V-ing = accustomed to (present habit)</td>
+        </tr>
+      </table>
+      <div class="tip-box">💡 <strong>The Greedy Verb Rule:</strong> When "did" enters the sentence, it steals the past tense — drop the "d" from "used". See a "Did"? Write "use to".</div>
+    </div>
+
+    <!-- Q1 MC -->
+    <div class="question-card" id="s0q1">
+      <div class="question-meta"><span class="q-number">Q1</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Anne _____ have short hair, but now she has long hair. She is really beautiful.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s0q1','A','C')"><span class="choice-label">A</span> used to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q1','B','C')"><span class="choice-label">B</span> must</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q1','C','C')"><span class="choice-label">C</span> is used to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q1','D','C')"><span class="choice-label">D</span> was going to</button>
+      </div>
+      <div class="feedback" id="s0q1-fb"></div>
+    </div>
+
+    <!-- Q2 MC -->
+    <div class="question-card" id="s0q2">
+      <div class="question-meta"><span class="q-number">Q2</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Harry: _____ Alice use to be a teacher?<br>William: Yes, she taught at a junior high school from 1990 to 2002.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s0q2','A','B')"><span class="choice-label">A</span> Does</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q2','B','B')"><span class="choice-label">B</span> Did</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q2','C','B')"><span class="choice-label">C</span> Was</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q2','D','B')"><span class="choice-label">D</span> Is</button>
+      </div>
+      <div class="feedback" id="s0q2-fb"></div>
+    </div>
+
+    <!-- Q3 FITB -->
+    <div class="question-card" id="s0q3">
+      <div class="question-meta"><span class="q-number">Q3</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">I _____ hate coffee, but now I drink it every day.</p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s0q3-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s0q3',['used to'])">Check</button>
+      </div>
+      <div class="feedback" id="s0q3-fb"></div>
+    </div>
+
+    <!-- Q4 FITB -->
+    <div class="question-card" id="s0q4">
+      <div class="question-meta"><span class="q-number">Q4</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">_____ she use to live in Taipei? Yes, she did.</p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s0q4-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s0q4',['did'])">Check</button>
+      </div>
+      <div class="feedback" id="s0q4-fb"></div>
+    </div>
+
+    <!-- Q5 FITB -->
+    <div class="question-card" id="s0q5">
+      <div class="question-meta"><span class="q-number">Q5</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">She _____ eat vegetables, but now she loves broccoli.<br><span style="font-size:12px;color:var(--muted);">(Hint: negative form)</span></p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s0q5-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s0q5',["didn't use to","didn't use to","did not use to"])">Check</button>
+      </div>
+      <div class="feedback" id="s0q5-fb"></div>
+    </div>
+
+    <!-- Q6 MC -->
+    <div class="question-card" id="s0q6">
+      <div class="question-meta"><span class="q-number">Q6</span><span class="q-tag">Multiple Choice · Trap!</span></div>
+      <p class="question-text">Tom _____ playing video games every night. It's his daily routine now.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s0q6','A','B')"><span class="choice-label">A</span> used to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q6','B','B')"><span class="choice-label">B</span> is used to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q6','C','B')"><span class="choice-label">C</span> did use to</button>
+        <button class="choice-btn" onclick="checkMC(this,'s0q6','D','B')"><span class="choice-label">D</span> was used to</button>
+      </div>
+      <div class="feedback" id="s0q6-fb"></div>
+    </div>
+
+    <div class="complete-banner" id="s0-complete">
+      <p style="font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;">Section 01 Complete</p>
+      <div class="score-display" id="s0-score-display">–</div>
+      <p>Keep going — comparatives next.</p>
+      <button class="next-section-btn" onclick="switchTab(1)">Next Section →</button>
+      <button class="reset-btn" onclick="resetSection(0)">Retry</button>
+    </div>
+  </div>
+
+  <!-- ===================== SECTION 2: COMPARATIVES ===================== -->
+  <div class="section" id="section-1">
+    <div class="section-header">
+      <div class="section-label">Section 02</div>
+      <h2 class="section-title">Comparatives & Superlatives</h2>
+      <p class="section-desc">Comparing two things vs. the best/worst of a group. Watch for "than" and "the".</p>
+    </div>
+
+    <div class="rule-card">
+      <h3>Quick Reference</h3>
+      <table class="rule-table">
+        <tr><td>Comparative</td><td>adjective + <code>-er</code> / <code>more</code> + adj + <code>than</code></td></tr>
+        <tr><td>Superlative</td><td><code>the</code> + adj + <code>-est</code> / <code>the most</code> + adj</td></tr>
+        <tr><td>As … as</td><td>Ted is as healthy <code>as</code> Daniel. (equal)</td></tr>
+        <tr><td>Trap ⚠️</td><td>See "than"? → comparative. See "of all"? → superlative.</td></tr>
+      </table>
+      <div class="tip-box">💡 <strong>The "than" rule:</strong> If you see "than" in the sentence, you MUST use a comparative — never a superlative. "The most" never goes with "than".</div>
+    </div>
+
+    <!-- Q1 MC -->
+    <div class="question-card" id="s1q1">
+      <div class="question-meta"><span class="q-number">Q1</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">The refrigerator is NT$70,000. No other machine in the store is _____ expensive than it.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s1q1','A','D')"><span class="choice-label">A</span> much</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q1','B','D')"><span class="choice-label">B</span> as much</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q1','C','D')"><span class="choice-label">C</span> the most</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q1','D','D')"><span class="choice-label">D</span> more</button>
+      </div>
+      <div class="feedback" id="s1q1-fb"></div>
+    </div>
+
+    <!-- Q2 MC -->
+    <div class="question-card" id="s1q2">
+      <div class="question-meta"><span class="q-number">Q2</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Karen is _____ of all. She tells good jokes.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s1q2','A','D')"><span class="choice-label">A</span> interesting</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q2','B','D')"><span class="choice-label">B</span> more interesting</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q2','C','D')"><span class="choice-label">C</span> as interesting</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q2','D','D')"><span class="choice-label">D</span> the most interesting</button>
+      </div>
+      <div class="feedback" id="s1q2-fb"></div>
+    </div>
+
+    <!-- Q3 MC -->
+    <div class="question-card" id="s1q3">
+      <div class="question-meta"><span class="q-number">Q3</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Ted is as healthy _____ Daniel. He seldom gets sick or catches a cold.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s1q3','A','B')"><span class="choice-label">A</span> than</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q3','B','B')"><span class="choice-label">B</span> as</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q3','C','B')"><span class="choice-label">C</span> of</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q3','D','B')"><span class="choice-label">D</span> like</button>
+      </div>
+      <div class="feedback" id="s1q3-fb"></div>
+    </div>
+
+    <!-- Q4 FITB -->
+    <div class="question-card" id="s1q4">
+      <div class="question-meta"><span class="q-number">Q4</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">Janet's clothes are more fashionable _____ Linda's.</p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s1q4-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s1q4',['than'])">Check</button>
+      </div>
+      <div class="feedback" id="s1q4-fb"></div>
+    </div>
+
+    <!-- Q5 FITB -->
+    <div class="question-card" id="s1q5">
+      <div class="question-meta"><span class="q-number">Q5</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">William is the _____ teacher in the school.<br><span style="font-size:12px;color:var(--muted);">(young → superlative)</span></p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s1q5-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s1q5',['youngest'])">Check</button>
+      </div>
+      <div class="feedback" id="s1q5-fb"></div>
+    </div>
+
+    <!-- Q6 MC -->
+    <div class="question-card" id="s1q6">
+      <div class="question-meta"><span class="q-number">Q6</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Coats today are not as heavy as _____ in the past. They are lighter now.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s1q6','A','C')"><span class="choice-label">A</span> ones</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q6','B','C')"><span class="choice-label">B</span> them</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q6','C','C')"><span class="choice-label">C</span> they were</button>
+        <button class="choice-btn" onclick="checkMC(this,'s1q6','D','C')"><span class="choice-label">D</span> the one</button>
+      </div>
+      <div class="feedback" id="s1q6-fb"></div>
+    </div>
+
+    <div class="complete-banner" id="s1-complete">
+      <p style="font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;">Section 02 Complete</p>
+      <div class="score-display" id="s1-score-display">–</div>
+      <p>One more section — vocabulary!</p>
+      <button class="next-section-btn" onclick="switchTab(2)">Next Section →</button>
+      <button class="reset-btn" onclick="resetSection(1)">Retry</button>
+    </div>
+  </div>
+
+  <!-- ===================== SECTION 3: VOCABULARY ===================== -->
+  <div class="section" id="section-2">
+    <div class="section-header">
+      <div class="section-label">Section 03</div>
+      <h2 class="section-title">Vocabulary</h2>
+      <p class="section-desc">Key words from Unit 1–2. Read the context carefully before choosing.</p>
+    </div>
+
+    <!-- Q1 MC -->
+    <div class="question-card" id="s2q1">
+      <div class="question-meta"><span class="q-number">Q1</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Alice: Is Jessica rich?<br>Barry: Yes, very rich. _____, she has ten houses in Taipei.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s2q1','A','D')"><span class="choice-label">A</span> Finally</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q1','B','D')"><span class="choice-label">B</span> Sadly</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q1','C','D')"><span class="choice-label">C</span> Already</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q1','D','D')"><span class="choice-label">D</span> Actually</button>
+      </div>
+      <div class="feedback" id="s2q1-fb"></div>
+    </div>
+
+    <!-- Q2 MC -->
+    <div class="question-card" id="s2q2">
+      <div class="question-meta"><span class="q-number">Q2</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">The orange cat weighs 5.2 kg, and the black one weighs 6.4 kg, so the orange one is _____.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s2q2','A','B')"><span class="choice-label">A</span> fresher</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q2','B','B')"><span class="choice-label">B</span> lighter</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q2','C','B')"><span class="choice-label">C</span> sweeter</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q2','D','B')"><span class="choice-label">D</span> stranger</button>
+      </div>
+      <div class="feedback" id="s2q2-fb"></div>
+    </div>
+
+    <!-- Q3 MC -->
+    <div class="question-card" id="s2q3">
+      <div class="question-meta"><span class="q-number">Q3</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">I couldn't open the new app on my phone. The shop clerk gave me a _____ to fix it.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s2q3','A','C')"><span class="choice-label">A</span> bow</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q3','B','C')"><span class="choice-label">B</span> part</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q3','C','C')"><span class="choice-label">C</span> tip</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q3','D','C')"><span class="choice-label">D</span> scam</button>
+      </div>
+      <div class="feedback" id="s2q3-fb"></div>
+    </div>
+
+    <!-- Q4 FITB -->
+    <div class="question-card" id="s2q4">
+      <div class="question-meta"><span class="q-number">Q4</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">Linda always spends a lot of time trying on new clothes in the f_____g room.<br><span style="font-size:12px;color:var(--muted);">Hint: where you try on clothes in a store</span></p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s2q4-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s2q4',['fitting'])">Check</button>
+      </div>
+      <div class="feedback" id="s2q4-fb"></div>
+    </div>
+
+    <!-- Q5 MC -->
+    <div class="question-card" id="s2q5">
+      <div class="question-meta"><span class="q-number">Q5</span><span class="q-tag">Multiple Choice</span></div>
+      <p class="question-text">Ben and I don't _____ about everything. We often fight.</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="checkMC(this,'s2q5','A','A')"><span class="choice-label">A</span> agree</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q5','B','A')"><span class="choice-label">B</span> mean</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q5','C','A')"><span class="choice-label">C</span> trick</button>
+        <button class="choice-btn" onclick="checkMC(this,'s2q5','D','A')"><span class="choice-label">D</span> stay</button>
+      </div>
+      <div class="feedback" id="s2q5-fb"></div>
+    </div>
+
+    <!-- Q6 FITB -->
+    <div class="question-card" id="s2q6">
+      <div class="question-meta"><span class="q-number">Q6</span><span class="q-tag">Fill in the Blank</span></div>
+      <p class="question-text">Google Maps is u_____l. With it, you can save a lot of time when you visit a big city.<br><span style="font-size:12px;color:var(--muted);">Hint: very helpful / convenient</span></p>
+      <div class="fitb-row">
+        <input class="fitb-input" id="s2q6-input" placeholder="type your answer…" autocomplete="off">
+        <button class="submit-btn" onclick="checkFITB('s2q6',['useful'])">Check</button>
+      </div>
+      <div class="feedback" id="s2q6-fb"></div>
+    </div>
+
+    <div class="complete-banner" id="s2-complete">
+      <p style="font-size:13px;color:var(--muted);font-family:var(--mono);letter-spacing:0.05em;text-transform:uppercase;">All Sections Complete 🎉</p>
+      <div class="score-display" id="s2-score-display">–</div>
+      <p id="final-message">Great work, Hankson!</p>
+      <button class="reset-btn" onclick="resetAll()" style="margin-left:0;">Start Over</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // State
+  const state = {
+    sections: [
+      { total: 6, answered: 0, correct: 0, done: false },
+      { total: 6, answered: 0, correct: 0, done: false },
+      { total: 6, answered: 0, correct: 0, done: false }
+    ],
+    currentSection: 0
+  };
+
+  const mcFeedback = {
+    'A': { correct: '✓ Correct! "used to" = a past habit that stopped.', wrong: '' },
+    'B': { correct: '✓ Correct! "Did" is the greedy verb — so write "use to" (no d).', wrong: '' },
+    'C': { correct: '✓ Correct! "they were" completes the comparison: "not as heavy as they were in the past."', wrong: '' },
+    'D': { correct: '✓ Correct!', wrong: '' }
+  };
+
+  const feedbackMessages = {
+    's0q1': { correct: '✓ Correct! "used to" = past habit that stopped. "is used to" (Option C) would need -ing: "is used to having".', wrong: '✗ Option C is a trap. "is used to" means accustomed to (present). The sentence says "but now she has long hair" — this is a past habit. Answer: A — used to.' },
+    's0q2': { correct: '✓ Correct! "Did" is the greedy verb. It steals the past tense, so we drop the "d" from "used" → "use to".', wrong: '✗ The word "use" has no "d", so a greedy past verb must go in the blank. Answer: B — Did.' },
+    's0q3': { correct: '✓ Perfect! "used to" for a past habit that stopped.', wrong: '✗ We need "used to" — a past habit that is no longer true. Answer: used to' },
+    's0q4': { correct: '✓ Correct! Questions with "use to" need "Did" at the front.', wrong: '✗ For questions with "use to", use "Did". Answer: Did' },
+    's0q5': { correct: '✓ Correct! Negative = "didn\'t use to" (no "d" on use!).', wrong: '✗ Negative form = "didn\'t use to". Don\'t write "didn\'t used to" — "Did" steals the "d". Answer: didn\'t use to' },
+    's0q6': { correct: '✓ Correct! "is used to" + V-ing = current habit / accustomed to. The clue is "daily routine now".', wrong: '✗ "It\'s his daily routine NOW" = a current habit. Use "is used to" + V-ing. Answer: B — is used to.' },
+    's1q1': { correct: '✓ Correct! You see "than" in the sentence → must use comparative: "more".', wrong: '✗ The key word is "than" — this signals a comparative. "The most" never goes with "than". Answer: D — more.' },
+    's1q2': { correct: '✓ Correct! "of all" signals superlative → "the most interesting".', wrong: '✗ "of all" signals you need a superlative. Answer: D — the most interesting.' },
+    's1q3': { correct: '✓ Correct! "as … as" structure for equal comparison.', wrong: '✗ The pattern is "as + adjective + as". Answer: B — as.' },
+    's1q4': { correct: '✓ Correct! Comparative always pairs with "than".', wrong: '✗ "more fashionable" is a comparative, so it pairs with "than". Answer: than' },
+    's1q5': { correct: '✓ Correct! Superlative of "young" = "youngest". Don\'t forget "the" before it!', wrong: '✗ Superlative of young = youngest. And remember "the youngest". Answer: youngest' },
+    's1q6': { correct: '✓ Correct! "not as heavy as they were in the past" — comparing coats now vs. coats then.', wrong: '✗ We\'re comparing coats now vs. coats in the past. "they were" refers back to "coats in the past". Answer: C — they were.' },
+    's2q1': { correct: '✓ Correct! "Actually" introduces a surprising or additional fact.', wrong: '✗ Barry is adding a surprising fact (ten houses!). "Actually" introduces surprising facts. Answer: D — Actually.' },
+    's2q2': { correct: '✓ Correct! 5.2 kg < 6.4 kg, so the orange cat is lighter.', wrong: '✗ 5.2 kg is less than 6.4 kg, so the orange cat weighs less = lighter. Answer: B — lighter.' },
+    's2q3': { correct: '✓ Correct! A "tip" = helpful advice or a trick to solve a problem.', wrong: '✗ The clerk helped him solve the problem by giving advice = a tip. Answer: C — tip.' },
+    's2q4': { correct: '✓ Correct! The fitting room is where you try on clothes in a store.', wrong: '✗ The word is "fitting" — the fitting room (試衣間). Answer: fitting' },
+    's2q5': { correct: '✓ Correct! "don\'t agree" = have different opinions. That\'s why they fight.', wrong: '✗ If they fight about everything, they don\'t agree. Answer: A — agree.' },
+    's2q6': { correct: '✓ Correct! "useful" = helpful, saves time.', wrong: '✗ The word is "useful" (有用的). u-s-e-f-u-l. Answer: useful' }
+  };
+
+  function checkMC(btn, cardId, chosen, correct) {
+    const card = document.getElementById(cardId);
+    if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+
+    const btns = card.querySelectorAll('.choice-btn');
+    btns.forEach(b => b.disabled = true);
+
+    const fb = document.getElementById(cardId + '-fb');
+    const sIdx = parseInt(cardId[1]);
+    const sec = state.sections[sIdx];
+
+    if (chosen === correct) {
+      btn.classList.add('selected-correct');
+      card.classList.add('correct');
+      fb.textContent = feedbackMessages[cardId].correct;
+      fb.className = 'feedback correct show';
+      sec.correct++;
+    } else {
+      btn.classList.add('selected-wrong');
+      card.classList.add('wrong');
+      // highlight correct
+      btns.forEach(b => {
+        const lbl = b.querySelector('.choice-label').textContent;
+        if (lbl === correct) b.classList.add('reveal-correct');
+      });
+      fb.textContent = feedbackMessages[cardId].wrong;
+      fb.className = 'feedback wrong show';
+    }
+
+    sec.answered++;
+    updateProgress(sIdx);
+    checkSectionComplete(sIdx);
+    updateTotalScore();
+  }
+
+  function checkFITB(cardId, accepted) {
+    const card = document.getElementById(cardId);
+    if (card.classList.contains('correct') || card.classList.contains('wrong')) return;
+
+    const input = document.getElementById(cardId + '-input');
+    const val = input.value.trim().toLowerCase();
+    const fb = document.getElementById(cardId + '-fb');
+    const sIdx = parseInt(cardId[1]);
+    const sec = state.sections[sIdx];
+
+    const isCorrect = accepted.map(a => a.toLowerCase()).includes(val);
+
+    input.disabled = true;
+    card.querySelector('.submit-btn').disabled = true;
+
+    if (isCorrect) {
+      input.classList.add('correct');
+      card.classList.add('correct');
+      fb.textContent = feedbackMessages[cardId].correct;
+      fb.className = 'feedback correct show';
+      sec.correct++;
+    } else {
+      input.classList.add('wrong');
+      card.classList.add('wrong');
+      fb.textContent = feedbackMessages[cardId].wrong;
+      fb.className = 'feedback wrong show';
+    }
+
+    sec.answered++;
+    updateProgress(sIdx);
+    checkSectionComplete(sIdx);
+    updateTotalScore();
+  }
+
+  function updateProgress(sIdx) {
+    if (state.currentSection !== sIdx) return;
+    const sec = state.sections[sIdx];
+    const pct = (sec.answered / sec.total) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+  }
+
+  function checkSectionComplete(sIdx) {
+    const sec = state.sections[sIdx];
+    if (sec.answered === sec.total && !sec.done) {
+      sec.done = true;
+      const banner = document.getElementById('s' + sIdx + '-complete');
+      const scoreEl = document.getElementById('s' + sIdx + '-score-display');
+      scoreEl.textContent = sec.correct + ' / ' + sec.total;
+      banner.classList.add('show');
+
+      if (sIdx === 2) {
+        const total = state.sections.reduce((a, s) => a + s.correct, 0);
+        const possible = state.sections.reduce((a, s) => a + s.total, 0);
+        const msg = document.getElementById('final-message');
+        if (total === possible) msg.textContent = '🎉 Perfect score! You\'re ready for the exam!';
+        else if (total >= possible * 0.8) msg.textContent = '💪 Great job, Hankson! Review the ones you missed.';
+        else msg.textContent = 'Good effort! Go over the feedback and try again.';
+      }
+    }
+  }
+
+  function updateTotalScore() {
+    const total = state.sections.reduce((a, s) => a + s.correct, 0);
+    const possible = state.sections.reduce((a, s) => a + s.answered, 0);
+    document.getElementById('total-score').textContent = total;
+    document.getElementById('total-possible').textContent = possible;
+  }
+
+  function switchTab(idx) {
+    document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+    document.querySelectorAll('.section').forEach((s, i) => s.classList.toggle('active', i === idx));
+    state.currentSection = idx;
+    const sec = state.sections[idx];
+    const pct = (sec.answered / sec.total) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function resetSection(sIdx) {
+    const s = state.sections[sIdx];
+    s.answered = 0; s.correct = 0; s.done = false;
+    document.getElementById('s' + sIdx + '-complete').classList.remove('show');
+
+    const sec = document.getElementById('section-' + sIdx);
+    sec.querySelectorAll('.question-card').forEach(card => {
+      card.className = 'question-card';
+      card.querySelectorAll('.choice-btn').forEach(b => {
+        b.disabled = false;
+        b.className = 'choice-btn';
+        b.onclick = b.onclick; // keep
+      });
+      const fb = card.querySelector('.feedback');
+      if (fb) { fb.className = 'feedback'; fb.textContent = ''; }
+      const inp = card.querySelector('.fitb-input');
+      if (inp) { inp.disabled = false; inp.value = ''; inp.className = 'fitb-input'; }
+      const sub = card.querySelector('.submit-btn');
+      if (sub) sub.disabled = false;
+    });
+
+    document.getElementById('progress-fill').style.width = '0%';
+    updateTotalScore();
+  }
+
+  function resetAll() {
+    [0, 1, 2].forEach(i => resetSection(i));
+    document.getElementById('total-score').textContent = '0';
+    document.getElementById('total-possible').textContent = '0';
+    switchTab(0);
+  }
+</script>
+</body>
+</html>
