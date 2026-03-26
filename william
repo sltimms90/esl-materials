@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tooth Fairy Rescue</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load React -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- Load Babel for JSX compilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-sky-200 min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // The exact sequence of targets and traps from William's Lesson Plan
+        const ROUNDS = [
+          { audioPrompt: "Say: /b/ (Belly)", target: "b", traps: ["d", "p"] },
+          { audioPrompt: "Say: /d/ (Diaper)", target: "d", traps: ["b", "q"] },
+          { audioPrompt: "Say: she", target: "she", traps: ["sh", "see"] },
+          { audioPrompt: "Say: /l/ (Tongue up!)", target: "l", traps: ["n", "i"] },
+          { audioPrompt: "Say: /n/ (Nose vibrate!)", target: "n", traps: ["l", "m"] },
+          { audioPrompt: "Say: the", target: "the", traps: ["teh", "a"] },
+          { audioPrompt: "Say: /p/ (Air burst)", target: "p", traps: ["q", "b"] },
+          { audioPrompt: "Say: /g/ (Throat)", target: "g", traps: ["j", "y"] },
+          { audioPrompt: "Say: /u/ (Umbrella)", target: "u", traps: ["a", "i"] },
+          { audioPrompt: "Say: we", target: "we", traps: ["ew", "me"] },
+          { audioPrompt: "Say: to", target: "to", traps: ["ot", "do"] },
+          { audioPrompt: "Say: /kw/ (Queen)", target: "q", traps: ["p", "d"] },
+          { audioPrompt: "Say: go", target: "go", traps: ["og", "do"] },
+          { audioPrompt: "Say: a", target: "a", traps: ["u", "i"] },
+          { audioPrompt: "Say: /j/ (Jump)", target: "j", traps: ["g", "y"] }
+        ];
+
+        function App() {
+          const [gameState, setGameState] = useState('start'); // 'start', 'playing', 'gameover'
+          const [currentRound, setCurrentRound] = useState(0);
+          const [score, setScore] = useState(0);
+          const [holes, setHoles] = useState(Array(9).fill(null));
+          const [feedback, setFeedback] = useState(null); // 'correct', 'wrong', null
+
+          // Spawner Logic
+          useEffect(() => {
+            if (gameState !== 'playing' || feedback !== null) return;
+
+            let hideTimer;
+            
+            const spawnMoles = () => {
+              const currentData = ROUNDS[currentRound];
+              const newHoles = Array(9).fill(null);
+
+              // Randomize 3 unique hole positions
+              const positions = [0, 1, 2, 3, 4, 5, 6, 7, 8].sort(() => 0.5 - Math.random());
+              
+              // Assign target and traps
+              newHoles[positions[0]] = { text: currentData.target, isTarget: true };
+              newHoles[positions[1]] = { text: currentData.traps[0], isTarget: false };
+              newHoles[positions[2]] = { text: currentData.traps[1], isTarget: false };
+
+              setHoles(newHoles);
+
+              // Moles stay up for 2.2 seconds before dipping down
+              hideTimer = setTimeout(() => {
+                setHoles(Array(9).fill(null));
+              }, 2200);
+            };
+
+            spawnMoles();
+            // Re-spawn every 2.8 seconds
+            const cycleTimer = setInterval(spawnMoles, 2800);
+
+            return () => {
+              clearInterval(cycleTimer);
+              clearTimeout(hideTimer);
+            };
+          }, [gameState, currentRound, feedback]);
+
+          const handleMoleClick = (isTarget) => {
+            if (gameState !== 'playing' || feedback !== null) return;
+
+            if (isTarget) {
+              setFeedback('correct');
+              setScore(s => s + 1);
+              setHoles(Array(9).fill(null)); // instantly hide
+              
+              setTimeout(() => {
+                setFeedback(null);
+                if (currentRound + 1 >= ROUNDS.length) {
+                  setGameState('gameover');
+                } else {
+                  setCurrentRound(r => r + 1);
+                }
+              }, 1200);
+            } else {
+              setFeedback('wrong');
+              setTimeout(() => setFeedback(null), 600);
+            }
+          };
+
+          const startGame = () => {
+            setScore(0);
+            setCurrentRound(0);
+            setFeedback(null);
+            setGameState('playing');
+          };
+
+          return (
+            <div className="min-h-screen flex flex-col items-center justify-center p-4 select-none touch-manipulation font-sans">
+              
+              {/* Maximum width constraint for iPad/Tablet playability */}
+              <div className="w-full max-w-lg bg-white/80 backdrop-blur rounded-3xl shadow-xl overflow-hidden border-4 border-sky-400 relative">
+                
+                {/* Header / Teacher UI */}
+                <div className="bg-sky-500 text-white p-4 text-center shadow-md relative z-10">
+                  <h1 className="text-2xl font-black tracking-widest uppercase text-yellow-300 drop-shadow-md">
+                    Tooth Fairy Rescue
+                  </h1>
+                  <div className="flex justify-between items-center mt-2 font-bold text-sky-100">
+                    <span>Round {currentRound + 1} / {ROUNDS.length}</span>
+                    <span className="flex items-center gap-1">🪙 {score}</span>
+                  </div>
+                  
+                  {/* Teacher Prompt Area */}
+                  {gameState === 'playing' && (
+                    <div className="mt-3 bg-white text-sky-900 rounded-xl p-3 shadow-inner font-extrabold text-xl animate-pulse">
+                      🎤 {ROUNDS[currentRound].audioPrompt}
+                    </div>
+                  )}
+                </div>
+
+                {/* Game Area */}
+                <div className="p-6 bg-gradient-to-b from-green-400 to-green-600 relative h-[450px]">
+                  
+                  {/* START SCREEN */}
+                  {gameState === 'start' && (
+                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-green-500/90 backdrop-blur-sm p-6 text-center transition-opacity duration-300">
+                      <div className="text-6xl mb-4">🧚‍♀️</div>
+                      <h2 className="text-3xl font-black text-white mb-2 drop-shadow-md">The Moles stole the coins!</h2>
+                      <p className="text-green-100 font-bold mb-8">Whack the mole holding the sound Teacher Sam says to get the coins back!</p>
+                      <button 
+                        onClick={startGame}
+                        className="bg-yellow-400 hover:bg-yellow-300 active:scale-95 text-yellow-900 text-3xl font-black py-4 px-10 rounded-full shadow-[0_6px_0_#b45309] transition-all"
+                      >
+                        PLAY NOW
+                      </button>
+                    </div>
+                  )}
+
+                  {/* GAME OVER SCREEN */}
+                  {gameState === 'gameover' && (
+                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-yellow-400/95 backdrop-blur-sm p-6 text-center transition-opacity duration-300">
+                      <div className="text-6xl mb-4 animate-bounce">🪙</div>
+                      <h2 className="text-4xl font-black text-yellow-900 mb-2 drop-shadow-md">MISSION COMPLETE!</h2>
+                      <p className="text-yellow-800 font-bold text-xl mb-8">William saved {score} Gold Coins for the Tooth Fairy!</p>
+                      <button 
+                        onClick={startGame}
+                        className="bg-sky-500 hover:bg-sky-400 active:scale-95 text-white text-2xl font-black py-4 px-10 rounded-full shadow-[0_6px_0_#0284c7] transition-all"
+                      >
+                        PLAY AGAIN
+                      </button>
+                    </div>
+                  )}
+
+                  {/* FEEDBACK OVERLAYS */}
+                  {feedback === 'correct' && (
+                    <div className="absolute inset-0 z-30 flex items-center justify-center bg-green-500/50 transition-opacity duration-300">
+                      <div className="text-9xl animate-bounce drop-shadow-2xl">🪙</div>
+                    </div>
+                  )}
+                  {feedback === 'wrong' && (
+                    <div className="absolute inset-0 z-30 flex items-center justify-center bg-red-600/60 transition-opacity duration-300">
+                      <div className="text-8xl font-black text-white drop-shadow-2xl animate-pulse">❌ BZZT!</div>
+                    </div>
+                  )}
+
+                  {/* MOLE GRID */}
+                  <div className="grid grid-cols-3 gap-x-4 gap-y-6 h-full place-items-center">
+                    {holes.map((mole, index) => (
+                      <div key={index} className="w-full h-28 relative flex justify-center items-end">
+                        {/* The dirt hole */}
+                        <div className="absolute bottom-0 w-24 h-8 bg-green-800 rounded-[100%] shadow-inner border-t-4 border-green-900"></div>
+                        
+                        {/* The Mole container (masks the sliding animation) */}
+                        <div className="absolute bottom-4 w-full h-28 overflow-hidden flex justify-center">
+                          <div 
+                            onClick={() => mole && handleMoleClick(mole.isTarget)}
+                            className={`w-20 bg-amber-700 rounded-t-full flex flex-col items-center pt-3 border-4 border-amber-900 cursor-pointer shadow-lg transition-transform duration-300 ease-out active:scale-90 select-none
+                              ${mole ? 'translate-y-4' : 'translate-y-full'}`}
+                            style={{ height: '100px' }} 
+                          >
+                            {/* Mole Face */}
+                            <div className="flex gap-2 mb-1">
+                              <div className="w-2.5 h-2.5 bg-black rounded-full"></div>
+                              <div className="w-2.5 h-2.5 bg-black rounded-full"></div>
+                            </div>
+                            <div className="w-4 h-2.5 bg-pink-400 rounded-full mb-2"></div>
+                            
+                            {/* The Target Text on belly */}
+                            {mole && (
+                              <div className="bg-[#fef08a] min-w-[3.5rem] px-2 h-10 rounded-full flex items-center justify-center font-extrabold text-2xl text-amber-900 border-2 border-amber-600 shadow-sm">
+                                {mole.text}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {/* Front lip of the dirt hole to cover the mole's bottom edge */}
+                        <div className="absolute bottom-0 w-24 h-4 bg-green-800 rounded-[100%] z-10 border-t-2 border-green-700"></div>
+                      </div>
+                    ))}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        // Render the app
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
